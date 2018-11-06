@@ -1,0 +1,83 @@
+header{
+	text-align: center;
+}
+h1{
+	display: inline-block !important;
+	font-family: Arial !important;
+	color: white !important;
+	background-color: darkblue;
+	border:solid lightblue 10px;
+	padding: 5px;
+	margin-top: 10px !important;
+	display: flex;   
+    flex-wrap: nowrap;
+    width: 80%;
+}
+
+/* achica el ancho del logo*/
+.logo{
+	width: 90%;
+}
+@media (min-width: 760px) and (max-width: 991px){
+	.logo{
+		width: 50%;
+	}
+}
+
+
+
+
+.filaResaltada{
+	font-weight: bold !important;
+	color: red !important;	
+}
+.catedras{
+	border: 1px solid blue !important;
+}
+
+
+
+
+
+.table thead th{
+	border: 1px solid black !important;	
+}
+
+thead{
+	color: darkblue;
+	background-color: lightblue;
+	text-align: center;
+}
+
+tr{
+	text-align: center;
+}
+td{
+	border: 1px solid black !important;	
+}
+
+.filaCatedra:nth-child(even){ 
+	background-color: LightGreen;
+	color: blue;
+}
+.filaCatedra:nth-child(odd){ 
+	background-color: LightCyan;
+	color: blue;
+}
+.filaCarrera:nth-child(even){ 
+	background-color: lightgrey;
+}
+.filaCarrera:nth-child(odd){ 
+	background-color: #e9e9e9;
+}
+
+
+
+.container ul{
+	border: 1px solid black !important;
+	text-align: center;
+}
+
+.eliminar{
+	color: white;
+}

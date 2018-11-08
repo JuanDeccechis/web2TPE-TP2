@@ -53,7 +53,7 @@ class ComentariosApiController extends Api{
   function Insert($param = null){
 
     $objetoJson = $this->getJSONData();
-    $r = $this->model->Insertar($objetoJson->Titulo, $objetoJson->Descripcion, $objetoJson->Completada);
+    $r = $this->model->Insertar($objetoJson->idUsuario, $objetoJson->idCatedra, $objetoJson->textoComentario, $objetoJson->puntaje);
 
     return $this->json_response($r, 200);
   }
@@ -62,7 +62,7 @@ class ComentariosApiController extends Api{
     if(count($param) == 1){
       $id = $param[0];
       $objetoJson = $this->getJSONData();
-      $r = $this->model->GuardarEditar($objetoJson->Titulo, $objetoJson->Descripcion, $objetoJson->Completada, $id);
+      $r = $this->model->GuardarEditar($objetoJson->idUsuario, $objetoJson->idCatedra, $objetoJson->textoComentario, $objetoJson->puntaje, $id);
       return $this->json_response($r, 200);
 
     }else{

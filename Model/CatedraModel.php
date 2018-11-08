@@ -29,7 +29,16 @@ class CatedraModel extends AbstractModel
     return $this->getByIdCarrera(CatedraModel::INSTANCE, $id_carrera);
   }
 */
-  function agregar($nombre,$link, $cant_alumnos, $id_carrera){
+
+  function subirImagen($tempPath){
+    $destino_final = 'images/' . uniqid() . '.jpg';
+        echo "destino_final: ".$destino_final;
+        move_uploaded_file($imagen, $destino_final);
+        return $destino_final;
+  }
+
+  function agregar($nombre,$link, $cant_alumnos, $id_carrera, $tempPath){
+    $path = $this->subirImagen($tempPath);
     $sentencia = $this->db->prepare("INSERT INTO catedra(nombre, link, cant_alumnos, id_carrera) VALUES(?,?,?,?)");
     $sentencia->execute(array($nombre,$link, $cant_alumnos, $id_carrera));
     $resul = $sentencia->rowCount();

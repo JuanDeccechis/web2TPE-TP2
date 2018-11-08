@@ -2,7 +2,7 @@
 /**
  *
  */
-class TareasModel
+class PermisosApiModel
 {
   private $db;
 
@@ -19,12 +19,12 @@ class TareasModel
 
   function Get($id=null){
     if(isset($id)){
-      $sentencia = $this->db->prepare( "select * from usuario where id=?");
+      $sentencia = $this->db->prepare( "select * from permisosusuario where idUsuario=?");
       $sentencia->execute(array($id));
       return $sentencia->fetch(PDO::FETCH_ASSOC);
     }
     else{
-      $sentencia = $this->db->prepare( "select * from usuario");
+      $sentencia = $this->db->prepare( "select * from permisosusuario");
       $sentencia->execute();
       $usuarios = $sentencia->fetchAll(PDO::FETCH_ASSOC);
       /*foreach ($usuarios as $key => $usuario) 

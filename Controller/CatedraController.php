@@ -51,8 +51,14 @@ class CatedraController extends AbstractController
         $nombre_carrera = $_POST["nombreCarreraForm"];
         $id_carrera = $this->carreraModel->getBy('nombre', $nombre_carrera, 1)['id'];
         $cant_alumnos = 1;
-        $afectados = $this->model->agregar($nombre, $link, $cant_alumnos, $id_carrera);
-        if ($afectados) {
+        /***  Parte imagenes  ***/
+        $rutaTempImagenes = $_FILES['imagenes']['tmp_name'];
+        $ext = $rutaTempImagenes.lenght() - 3;
+        echo substr($rutaTempImagenes, $ext);
+        //////ACA VA EL IF EXT = PNG O JPG
+        $afectados = $this->model->agregar($nombre, $link, $cant_alumnos, $id_carrera, $rutaTempImagenes[0]);
+        //$afectados = $this->model->agregar($nombre, $link, $cant_alumnos, $id_carrera);
+        if ($afectados) {//debería borrar el header!!!!
           header(HOME."/mostrarCatedras");
           die();
         }else{

@@ -29,8 +29,8 @@ abstract class AbstractModel
   }
 
   function crearDB(){
-    $this->db->query("CREATE DATABASE IF NOT EXISTS `db_web2_tp1` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-      USE `db_web2_tp1`;");
+    $this->db->query("CREATE DATABASE IF NOT EXISTS `web2tp1` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+      USE `web2tp1`;");
     
     $tabla = "CREATE TABLE IF NOT EXISTS `carrera` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

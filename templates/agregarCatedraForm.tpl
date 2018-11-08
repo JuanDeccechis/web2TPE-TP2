@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-lg-8">
         <h2>Formulario</h2>
-        <form method="post" action="agregarCatedra">
+        <form method="post" action="agregarCatedra" enctype="multipart/form-data">
           <div class="form-group">
             <label for="nombreForm">nombre</label>
             <input type="text" class="form-control" id="nombreForm" name="nombreForm" >
@@ -24,6 +24,10 @@
                     {/foreach}
                   </select>
                 </div>
+              </div>
+              <div class="form-group">
+                <label for="imagen">Imagen</label>
+                <input type="file" id="imagenes" name="imagenes[]" multiple>
               </div>
               <h3>{$Mensaje}</h3>
               <div class="col-4">

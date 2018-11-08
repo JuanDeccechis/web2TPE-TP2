@@ -45,7 +45,7 @@ class UsuariosApiController extends Api{
   function Insert($param = null){
 
     $objetoJson = $this->getJSONData();
-    $r = $this->model->Insertar($objetoJson->Titulo, $objetoJson->Descripcion, $objetoJson->Completada);
+    $r = $this->model->Insertar($objetoJson->nickname, $objetoJson->pass);
 
     return $this->json_response($r, 200);
   }
@@ -54,7 +54,7 @@ class UsuariosApiController extends Api{
     if(count($param) == 1){
       $id = $param[0];
       $objetoJson = $this->getJSONData();
-      $r = $this->model->GuardarEditar($objetoJson->Titulo, $objetoJson->Descripcion, $objetoJson->Completada, $id);
+      $r = $this->model->GuardarEditar($objetoJson->nickname, $objetoJson->pass, $id);
       return $this->json_response($r, 200);
 
     }else{

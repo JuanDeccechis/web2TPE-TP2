@@ -23,7 +23,7 @@ class ComentariosApiModel
       return $resultado;
     }
   }
-  }
+  
 
   function crearDB(){
     $this->db->query("CREATE DATABASE IF NOT EXISTS `web2comentarios` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
@@ -84,10 +84,10 @@ USE `web2comentarios`;");
       $sentencia = $this->db->prepare( "select * from comentario");
       $sentencia->execute();
       $comentarios = $sentencia->fetchAll(PDO::FETCH_ASSOC);
-      foreach ($comentarios as $key => $comentario) 
+      /*foreach ($comentarios as $key => $comentario) 
         $comentario[$key]['completada'] = $comentario['completada'] == "1" ? true : false;
-
-      return $comentario;
+*/
+      return $comentarios;
     }
   }
 
@@ -101,9 +101,9 @@ USE `web2comentarios`;");
       return $this->Get();
   }
 
-  function Insertar($titulo,$descripcion,$completada){
-    $sentencia = $this->db->prepare("INSERT INTO comentario(titulo, descripcion, completada) VALUES(?,?,?)");
-    $sentencia->execute(array($titulo,$descripcion,$completada));
+  function Insertar($idUsuario, $idCatedra, $textoComentario, $puntaje){
+    $sentencia = $this->db->prepare("INSERT INTO comentario(idUsuario,idCatedra,textoComentario, puntaje) VALUES(?,?,?,?)");
+    $sentencia->execute(array($idUsuario,$idCatedra,$textoComentario, $puntaje));
     $lastId =  $this->db->lastInsertId();
     return $this->Get($lastId);
   }
@@ -123,9 +123,9 @@ USE `web2comentarios`;");
     $sentencia->execute(array($id));
   }
 
-  function GuardarEditar($titulo,$descripcion,$completada,$id){
-    $sentencia = $this->db->prepare( "update comentario set titulo = ?, descripcion = ?, completada = ? where id=?");
-    $sentencia->execute(array($titulo,$descripcion,$completada,$id));
+  function GuardarEditar($idUsuario, $idCatedra, $textoComentario, $puntaje, $id){
+    $sentencia = $this->db->prepare( "update comentario set idUsuario = ?, idCatedra = ?, textoComentario = ?, puntaje = ? where id=?");
+    $sentencia->execute(array($idUsuario, $idCatedra, $textoComentario, $puntaje, $id));
   }
 }
 

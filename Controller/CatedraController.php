@@ -53,7 +53,7 @@ class CatedraController extends AbstractController
         $cant_alumnos = 1;
         /***  Parte imagenes  ***/
         $rutaTempImagenes = $_FILES['imagenes']['tmp_name'];
-        $ext = $rutaTempImagenes.lenght() - 3;
+        $ext = $rutaTempImagenes.strlen() - 3;
         echo substr($rutaTempImagenes, $ext);
         //////ACA VA EL IF EXT = PNG O JPG
         $afectados = $this->model->agregar($nombre, $link, $cant_alumnos, $id_carrera, $rutaTempImagenes[0]);

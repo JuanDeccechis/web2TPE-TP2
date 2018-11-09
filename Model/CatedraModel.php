@@ -33,7 +33,7 @@ class CatedraModel extends AbstractModel
   function subirImagen($tempPath){
     $destino_final = 'images/' . uniqid() . '.jpg';
         echo "destino_final: ".$destino_final;
-        move_uploaded_file($imagen, $destino_final);
+        move_uploaded_file($tempPath, $destino_final);
         return $destino_final;
   }
 

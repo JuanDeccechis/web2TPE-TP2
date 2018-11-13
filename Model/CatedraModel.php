@@ -30,15 +30,8 @@ class CatedraModel extends AbstractModel
   }
 */
 
-  function subirImagen($tempPath){
-    $destino_final = 'images/' . uniqid() . '.jpg';
-        echo "destino_final: ".$destino_final;
-        move_uploaded_file($tempPath, $destino_final);
-        return $destino_final;
-  }
 
-  function agregar($nombre,$link, $cant_alumnos, $id_carrera, $tempPath){
-    $path = $this->subirImagen($tempPath);
+  function agregar($nombre,$link, $cant_alumnos, $id_carrera){
     $sentencia = $this->db->prepare("INSERT INTO catedra(nombre, link, cant_alumnos, id_carrera) VALUES(?,?,?,?)");
     $sentencia->execute(array($nombre,$link, $cant_alumnos, $id_carrera));
     $resul = $sentencia->rowCount();
@@ -50,6 +43,11 @@ class CatedraModel extends AbstractModel
     $sentencia->execute(array($nombre,$link, $cant_alumnos, $id_carrera, $id));
     $resul = $sentencia->rowCount();
     return $resul;
+  }
+
+  function getLast(){
+    $lastId =  $this->db->lastInsertId();
+    return $this->mostrarUno($lastId);
   }
 
 }

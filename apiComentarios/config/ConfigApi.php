@@ -3,6 +3,7 @@ define('HOME', 'Location: //'.$_SERVER['SERVER_NAME'] . ":". $_SERVER['SERVER_PO
 
 class ConfigApi
 {
+    /*tareas/:parametros*/
     public static $RESOURCE = 'resource';
     public static $PARAMS = 'params';
     public static $RESOURCES = [

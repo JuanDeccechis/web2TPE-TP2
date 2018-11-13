@@ -12,6 +12,7 @@ function parseURL($url)
   return $arrayReturn;
 }
 
+/*tareas/:parametros*/
 if(isset($_GET['resource'])){
     $urlData = parseURL($_GET['resource']);
     $resource = $urlData[ConfigApi::$RESOURCE]; //home

@@ -13,6 +13,16 @@
 	 		$hash = password_hash($pass, PASSWORD_DEFAULT);
 	    	$sentencia = $this->db->prepare("INSERT INTO usuario(nickname, pass) VALUES(?,?)");
 	   		$sentencia->execute(array($nombre, $hash));
-	  }
+	  	}
+
+	  	function eliminar($id){
+		    $this->db->beginTransaction();
+		    $sentencia = $this->db->prepare( "delete from usuario where id=?");
+		    $sentencia->execute(array($id));
+		    $this->db->commit();
+		    $resultado = $sentencia->rowCount();
+		    $sentencia->closeCursor();
+		    return $resultado;
+		}
 	}
 ?>

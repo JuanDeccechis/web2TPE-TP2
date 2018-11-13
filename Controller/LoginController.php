@@ -22,7 +22,7 @@ require_once  "AbstractController.php";
 				if(isset($dbUser[0])){
 					if (password_verify($pass, $dbUser[0]["pass"])){
 						session_start();
-	              		$_SESSION["User"] = $user;
+	              		$_SESSION["User"] = $user; //user = nombre usuario
 	              		header(HOME);
 	          		}
 	          		else 

@@ -3,9 +3,18 @@ require('libs/Smarty.class.php');
 
 abstract class AbstractView
 {
+
+    private $basehref;
+
+    public function __construct(){
+        $this->basehref = '//'.$_SERVER['SERVER_NAME']/*. ":". $_SERVER['SERVER_PORT']*/.dirname($_SERVER['PHP_SELF']).'/';     
+    }
+
+
   function show($Titulo, $table, $elementos, $template, $mensaje=''){
     $smarty = new Smarty();
     $smarty->assign('Titulo',$Titulo);
+    /*$smarty->assign("basehref", $this->basehref);*/
     $smarty->assign('Table',$table);
     $smarty->assign('Mensaje',$mensaje);
     $smarty->assign('Elementos',$elementos);
@@ -21,6 +30,7 @@ abstract class AbstractView
   function showCatedras($Titulo, $table, $elementos, $template, $carreras, $mensaje=''){
     $smarty = new Smarty();
     $smarty->assign('Titulo',$Titulo);
+    /*$smarty->assign("basehref", $this->basehref);*/
     $smarty->assign('Table',$table);
     $smarty->assign('Mensaje',$mensaje);
     $smarty->assign('Elementos',$elementos);

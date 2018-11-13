@@ -8,6 +8,7 @@
     <th>Link</th>
     <th>Cantidad de alumnos</th>
     {if $sesion_activa}
+      <th>IMAGENES</th>
       <th>ELIMINAR</th>
       <th>EDITAR</th>
     {/if}
@@ -20,6 +21,7 @@
           <td> <a href="http://{$Elementos['link']}"  target="_blank"> <img src="images/icon-link.png"  alt="Link"></a> </td>
           <td> {$Elementos['cant_alumnos']} </td>
           {if $sesion_activa}
+            
             <td> <a href="eliminarCatedra/{$Elementos['id']}">ELIMINAR</a> </td>
             <td> <a href="editarCatedra/{$Elementos['id']}">EDITAR</a></td>
           {/if}
@@ -27,3 +29,4 @@
   </tbody>
 </table>
 {include file="footer.tpl"}
+

@@ -5,7 +5,7 @@
 
     <div class="container">
       <h2>Formulario</h2>
-      <form method="post" action="guardarEditarCatedra">
+      <form method="post" action="guardarEditarCatedra" enctype="multipart/form-data">
         <input type="hidden" class="form-control" id="idForm" name="idForm" value="{$Elementos['id']}">
         <div class="form-group">
           <label for="tituloForm">Titulo</label>
@@ -16,15 +16,19 @@
           <input type="text" class="form-control" id="linkForm" name="linkForm" value="{$Elementos['link']}">
         </div>
         <div class="form-group">
-            <label for="nombreCarreraForm">nombre carrera</label>
-            <select class="form-control" id="nombreCarreraForm" name="nombreCarreraForm">
-              {foreach from=$carreras item=carrera}
-                <option>{$carrera['nombre']}</option>
-              {/foreach}
-            </select>
+          <label for="nombreCarreraForm">nombre carrera</label>
+          <select class="form-control" id="nombreCarreraForm" name="nombreCarreraForm">
+            {foreach from=$carreras item=carrera}
+              <option>{$carrera['nombre']}</option>
+            {/foreach}
+          </select>
+        </div>
+        <td> 
+          <div class="form-group">
+            <label for="imagenesEditar">Imagen</label>
+            <input type="file" id="imagenesEditar" name="imagenesEditar[]" multiple>
           </div>
-    
-        
+        </td>        
         <button type="submit" class="btn btn-primary">Editar Catedra</button>
       </form>
     </div>

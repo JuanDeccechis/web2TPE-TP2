@@ -2,16 +2,20 @@
 require_once  "./View/CatedraView.php";
 require_once  "./Model/CatedraModel.php";
 require_once  "./Model/CarreraModel.php";
+require_once  "./Model/ImagenModel.php";
 require_once  "AbstractController.php";
 
 class CatedraController extends AbstractController
 {
   private $carreraModel;
+  private $imagenModel;
 
   function __construct()
   {
     parent::__construct(new CatedraView(), new CatedraModel(), "Catedras");
     $this->carreraModel = new CarreraModel();
+    $this->imagenModel = new ImagenModel();
+
   }
 
   private function listaCarreras() { // retorna todas las carreras con sus catedras
@@ -51,16 +55,26 @@ class CatedraController extends AbstractController
         $nombre_carrera = $_POST["nombreCarreraForm"];
         $id_carrera = $this->carreraModel->getBy('nombre', $nombre_carrera, 1)['id'];
         $cant_alumnos = 1;
+        $afectados = $this->model->agregar($nombre, $link, $cant_alumnos, $id_carrera);
         /***  Parte imagenes  ***/
-        $rutaTempImagenes = $_FILES['imagenes']['tmp_name'];
-        $ext = $rutaTempImagenes.strlen() - 3;
-        echo substr($rutaTempImagenes, $ext);
-        //////ACA VA EL IF EXT = PNG O JPG
-        $afectados = $this->model->agregar($nombre, $link, $cant_alumnos, $id_carrera, $rutaTempImagenes[0]);
-        //$afectados = $this->model->agregar($nombre, $link, $cant_alumnos, $id_carrera);
+        $last =  $this->model->getLast();
+        $lastId = $last["id"];
+        if (($afectados)&&(isset($_FILES['imagenes']))) {
+          for ($i=0; $i < count($_FILES['imagenes']['name']); $i++) { 
+            $ruta = $_FILES['imagenes']['name'][$i];
+            /*var_dump("ruta: ". $ruta. " para " . $i);*/
+            $rutaTempImagenes = $_FILES['imagenes']['tmp_name'][$i];
+            $tamaño = strlen($ruta)-3;
+            $ext = substr($ruta, $tamaño);
+            if(($ext == "jpg") || ($ext == "png")){
+              /*var_dump("dato: ". $lastId . $rutaTempImagenes . $ext. " para " . $i);*/
+              $path = $this->imagenModel->subirImagen($lastId, $rutaTempImagenes, $ext);
+            }
+          }
+        }
         if ($afectados) {//debería borrar el header!!!!
-          header(HOME."/mostrarCatedras");
-          die();
+          //header(HOME."/mostrarCatedras");
+          //die();
         }else{
           $resul = "";
           $this->view->resultado("agregar catedra", $afectados);
@@ -107,7 +121,10 @@ class CatedraController extends AbstractController
 
   function guardarEditar(){
     if (isset($_SESSION["User"])) {
-      if (((isset($_POST["idForm"])) && ($_POST["idForm"] != null)) && ((isset($_POST["nombreForm"])) && ($_POST["nombreForm"] != null)) && ((isset($_POST["nombreCarreraForm"])) && ($_POST["nombreCarreraForm"] != null)) && ((isset($_POST["linkForm"])) && ($_POST["linkForm"] != null))) {
+      var_dump(($_POST["nombreForm"]));
+      var_dump(($_POST["nombreCarreraForm"]));
+      var_dump(($_POST["linkForm"]));
+      if (((isset($_POST["nombreForm"])) && ($_POST["nombreForm"] != null)) && ((isset($_POST["nombreCarreraForm"])) && ($_POST["nombreCarreraForm"] != null)) && ((isset($_POST["linkForm"])) && ($_POST["linkForm"] != null))) {
         $id_catedra = $_POST["idForm"];
         $nombre = $_POST["nombreForm"];
         $link = $_POST["linkForm"];
@@ -116,22 +133,36 @@ class CatedraController extends AbstractController
         $id_carrera = $this->carreraModel->getBy('nombre', $nombre_carrera, 1)['id'];
         $cant_alumnos = 2;
         $afectados = $this->model->guardarEditar($nombre,$link,$cant_alumnos,$id_carrera,$id_catedra);
+        /***  Parte imagenes  ***/
+        if (($afectados)&&(isset($_FILES['imagenesEditar']))) {
+          for ($i=0; $i < count($_FILES['imagenesEditar']['name']); $i++) { 
+            $ruta = $_FILES['imagenesEditar']['name'][$i];
+            var_dump("ruta: ". $ruta. " para " . $i);
+            $rutaTempImagenes = $_FILES['imagenesEditar']['tmp_name'][$i];
+            $tamaño = strlen($ruta)-3;
+            $ext = substr($ruta, $tamaño);
+            if(($ext == "jpg") || ($ext == "png")){
+              var_dump("dato: ". $lastId . $rutaTempImagenes . $ext. " para " . $i);
+              $path = $this->imagenModel->subirImagen($id_catedra, $rutaTempImagenes, $ext);
+            }
+          }
+        }
         if ($afectados) {
-          header(HOME."/mostrarCatedras");
-          die();
+          //header(HOME."/mostrarCatedras");
+          //die();
         }else{
           $resul = "";
           $this->view->resultado("editar catedra", $afectados);
         } 
       }
       else{
-        header(HOME."/mostrarCatedras");
-        die();
+        //header(HOME."/mostrarCatedras");
+        //die();
       }
     }
     else{
-      header(HOME."/login");
-      die();
+      //header(HOME."/login");
+      //die();
     }
   }
 

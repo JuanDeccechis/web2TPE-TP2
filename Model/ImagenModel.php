@@ -32,7 +32,16 @@ class ImagenModel extends AbstractModel
     $sentencia->execute(array($id, $idCatedra));
     $this->db->commit();
     $sentencia->closeCursor();
-      
+  }
+
+  function mostrarPorCatedra($id_catedra){
+    $this->db->beginTransaction();
+    $sentencia = $this->db->prepare( "SELECT * FROM imagen WHERE idCatedra=?");
+    $sentencia->execute(array($id_catedra));
+    $this->db->commit();
+    $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+    $sentencia->closeCursor();
+    return $resultado;
   }
 
 }

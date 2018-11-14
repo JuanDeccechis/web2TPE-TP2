@@ -16,9 +16,10 @@ class CatedraView extends AbstractView
     $this->show($metodo, 'catedra', $afectados, 'templates/afectados.tpl');
   }
 
-  function detalle($carrera, $catedra) {
-        $this->showCatedras('Información detallada de catedra', 'catedra', $catedra, 'templates/catedraDetalle.tpl', $carrera);
+  function detalle($carrera, $catedra, $imagenes) {
+    $this->showDetalleCatedra('Información detallada de catedra', 'catedra', $catedra, 'templates/catedraDetalle.tpl', $carrera,$imagenes);
   }
+
 }
 
 

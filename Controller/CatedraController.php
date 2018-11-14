@@ -41,10 +41,11 @@ class CatedraController extends AbstractController
   }
 
   function mostrarEnDetalle($params) {
-      $id_catedra = $params[0];
-      $catedra = $this->model->mostrarUno($id_catedra);
-      $carrera = $this->carreraModel->mostrarUno($catedra['id_carrera']);
-      $this->view->detalle($carrera, $catedra);
+    $id_catedra = $params[0];
+    $catedra = $this->model->mostrarUno($id_catedra);
+    $carrera = $this->carreraModel->mostrarUno($catedra['id_carrera']);
+    $imagenes = $this->imagenModel->mostrarPorCatedra($id_catedra);
+    $this->view->detalle($carrera, $catedra, $imagenes);
   }
 
   function agregar(){

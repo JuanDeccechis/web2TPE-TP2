@@ -28,6 +28,7 @@
                     {assign var="img" value=$imagen scope='global'}
                   {/foreach}
                   {assign var="path" value=$imagenes[0]['direccion'] scope='global'}
+                  
                 </select>
               {/if}
               <!-- {html_options values=$imagenes output=$imagenes['direccion'] selected=$path} -->
@@ -49,7 +50,7 @@
     {if $sesion_activa}
     <form method="post" action="eliminarImagen">
       <input name="indiceImagenOculta" class="indiceImagenOculta">
-      <input name="indiceImagenOculta" class="indiceImagenOculta" value={$imagenes[]}><!-- esto no esta completo -->
+      <input name="imagenABorrar" value={$imagenes[indiceImagenOculta]}>
       <button type="submit" class="btn btn-primary">Eliminar Imagen</button>
     </form>
     {/if}

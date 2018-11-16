@@ -184,6 +184,10 @@ class CatedraController extends AbstractController
       die();
     }
   }
+
+  function eliminarImagen($param){
+/*esto no esta completo*/
+  }
 }
 
  ?>

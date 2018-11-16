@@ -24,7 +24,8 @@ class ConfigApp
       'signIn' => 'SignInController#signIn',
       'newUser' => 'SignInController#agregar',
       'logout' => 'LoginController#logout',
-      'enDetalle' => 'CatedraController#mostrarEnDetalle'
+      'enDetalle' => 'CatedraController#mostrarEnDetalle',
+      'eliminarImagen' => 'CatedraController#eliminarImagen'
     ];
 
 }

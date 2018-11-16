@@ -7,8 +7,8 @@
     <th>Nombre Carrera</th>
     <th>Link</th>
     <th>Cantidad de alumnos</th>
+    <th>IMAGENES</th>
     {if $sesion_activa}
-      <th>IMAGENES</th>
       <th>ELIMINAR</th>
       <th>EDITAR</th>
     {/if}
@@ -21,13 +21,15 @@
           <td> <a href="http://{$Elementos['link']}"  target="_blank"> <img src="images/icon-link.png"  alt="Link"></a> </td>
           <td> {$Elementos['cant_alumnos']} </td>
           <td>
-              <!-- <label for="imagenes">imagenes</label> -->
-              <select class="form-control" id="imagenes" name="imagenes">
-                {foreach from=$imagenes item=imagen}
-                  <option>{$imagen['direccion']}</option>
-                  {assign var="path" value=$imagen['direccion'] scope='global'}
-                {/foreach}
-              </select>
+              {if !empty($imagenes)}
+                <select class="form-control" id="imagenesDropdown" name="imagenesDropdown">
+                  {foreach from=$imagenes item=imagen}
+                    <option>{$imagen['direccion']}</option>
+                    {assign var="img" value=$imagen scope='global'}
+                  {/foreach}
+                  {assign var="path" value=$imagenes[0]['direccion'] scope='global'}
+                </select>
+              {/if}
               <!-- {html_options values=$imagenes output=$imagenes['direccion'] selected=$path} -->
               
               <!-- {html_options name="imagenes" options=$imagenes selected=$path} -->
@@ -41,10 +43,18 @@
   </tbody>
 </table>
 
-<div class="form-group">
-  <img src={$path} class="tamañoImagen">
-  
-</div>
+{if !empty($imagenes)}
+  <div class="form-group">
+    <img src={$path} class="imagenSeleccionada">
+    {if $sesion_activa}
+    <form method="post" action="eliminarImagen">
+      <input name="indiceImagenOculta" class="indiceImagenOculta">
+      <input name="indiceImagenOculta" class="indiceImagenOculta" value={$imagenes[]}><!-- esto no esta completo -->
+      <button type="submit" class="btn btn-primary">Eliminar Imagen</button>
+    </form>
+    {/if}
+  </div>
+{/if}
       
 {include file="footer.tpl"}
 

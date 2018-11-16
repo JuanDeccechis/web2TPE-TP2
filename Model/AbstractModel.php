@@ -57,7 +57,14 @@ abstract class AbstractModel
   UNIQUE KEY `nombre` (`nickname`),
   UNIQUE KEY `nombre_2` (`nickname`),
   UNIQUE KEY `nickname` (`nickname`)
-  ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;";
+  ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+  CREATE TABLE `imagen` (
+  `id` int(11) NOT NULL,
+  `idCatedra` int(11) NOT NULL,
+  `direccion` text NOT NULL,
+  PRIMARY KEY (`id`,`idCatedra`),
+  ) ENGINE=InnoDB DEFAULT CHARSET=latin1;";
 
     $this->db->query($tabla);
    
@@ -76,12 +83,20 @@ abstract class AbstractModel
   INSERT INTO `usuario` (`id`, `nickname`, `pass`) VALUES
   (1, 'juan', '\$2y\$10\$dC4rtG4juiZKIQ9IYvGpoeeh5x9DPqJ3aW37.tepitqCCRmSqIKn.'),
   (2, 'andres', '\$2y\$10\$sw4HN33NKJ0t67BftE6kVua7xvQFYY8AVLKJPqPv8S7oDVsWXqSQO'),
-  (3, 'ultimo', '\$2y\$10\$yc5vEHT/xb0Ssv5NT.38a.kWyC3PK4q1qxwJmFPa1QQib5ZtkQOwu');";
+  (3, 'ultimo', '\$2y\$10\$yc5vEHT/xb0Ssv5NT.38a.kWyC3PK4q1qxwJmFPa1QQib5ZtkQOwu');
+
+  INSERT INTO `imagen` (`id`, `idCatedra`, `direccion`) VALUES
+  (31, 2, 'images/5beb6f7de4a5b.png'),
+  (32, 2, 'images/5beb6f7de88dc.png');";
 
     $this->db->query($sentencias);
 
     $fk = "ALTER TABLE `catedra`
   ADD CONSTRAINT `catedra_ibfk_1` FOREIGN KEY (`id_carrera`) REFERENCES `carrera` (`id`);
+  COMMIT;
+
+  ALTER TABLE `imagen`
+  ADD CONSTRAINT `imagen_ibfk_1` FOREIGN KEY (`idCatedra`) REFERENCES `catedra` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
   COMMIT;";
 
     $this->db->query($fk);

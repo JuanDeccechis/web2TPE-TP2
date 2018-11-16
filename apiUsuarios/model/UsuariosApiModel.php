@@ -69,7 +69,7 @@ USE `web2usuarios`;");
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
   ALTER TABLE `permisosusuario`
-  ADD CONSTRAINT `permisosusuario_ibfk_1` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`id`); COMMIT;  ";
+  ADD CONSTRAINT `permisosusuario_ibfk_1` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;COMMIT;  ";
 
     $this->db->query($fk);
 

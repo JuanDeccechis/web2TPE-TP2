@@ -25,7 +25,16 @@ class ImagenModel extends AbstractModel
     return $destino_final;
   }
 
-  function borrarImagen($id, $idCatedra, $direccion){
+  function borrarImagen($id, $idCatedra){
+    $this->db->beginTransaction();
+    $sentencia = $this->db->prepare( "SELECT * FROM imagen WHERE id=? AND idCatedra=?");
+    $sentencia->execute(array($id, $idCatedra));
+    $this->db->commit();
+    $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+    var_dump($resultado);
+    $sentencia->closeCursor();
+    $direccion = $resultado["direccion"];
+    var_dump($direccion);
     unlink($direccion);
     $this->db->beginTransaction();
     $sentencia = $this->db->prepare( "DELETE FROM imagen WHERE id=? AND idCatedra=?");

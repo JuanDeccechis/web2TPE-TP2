@@ -23,11 +23,6 @@ h1{
 		width: 50%;
 	}
 }
-.imagenSeleccionada{
-	width: 100px;
-	border-color: red;
-}
-
 
 
 .filaResaltada{
@@ -83,4 +78,13 @@ td{
 
 .eliminar{
 	color: white;
+}
+
+
+.imagenSeleccionada{
+	width: 100px;
+	border-color: red;
+}
+.indiceImagenOculta{
+	display: none;
 }

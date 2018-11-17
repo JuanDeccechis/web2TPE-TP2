@@ -7,7 +7,6 @@
     <th>Nombre Carrera</th>
     <th>Link</th>
     <th>Cantidad de alumnos</th>
-    <th>IMAGENES</th>
     {if $sesion_activa}
       <th>ELIMINAR</th>
       <th>EDITAR</th>
@@ -20,7 +19,7 @@
           <td> {$carreras['nombre']}</td>
           <td> <a href="http://{$Elementos['link']}"  target="_blank"> <img src="images/icon-link.png"  alt="Link"></a> </td>
           <td> {$Elementos['cant_alumnos']} </td>
-          <td>
+          <!-- <td>
               {if !empty($imagenes)}
                 <select class="form-control" id="imagenesDropdown" name="imagenesDropdown">
                   {foreach from=$imagenes item=imagen}
@@ -31,10 +30,7 @@
                   
                 </select>
               {/if}
-              <!-- {html_options values=$imagenes output=$imagenes['direccion'] selected=$path} -->
-              
-              <!-- {html_options name="imagenes" options=$imagenes selected=$path} -->
-          </td>
+          </td> -->
           {if $sesion_activa}
             
             <td> <a href="eliminarCatedra/{$Elementos['id']}">ELIMINAR</a> </td>
@@ -44,16 +40,20 @@
   </tbody>
 </table>
 
+
+
 {if !empty($imagenes)}
+  <p> Imagenes: </p>
   <div class="form-group">
-    <img src={$path} class="imagenSeleccionada">
-    {if $sesion_activa}
-    <form method="post" action="eliminarImagen">
-      <input name="indiceImagenOculta" class="indiceImagenOculta">
-      <input name="imagenABorrar" value={$imagenes[indiceImagenOculta]}>
-      <button type="submit" class="btn btn-primary">Eliminar Imagen</button>
-    </form>
-    {/if}
+    {foreach from=$imagenes item=imagen}
+      <img src={$imagen['direccion']} class="imagenSeleccionada">
+      {if $sesion_activa}
+      <form method="post" action="eliminarImagen/{$imagen['id']}">
+        <input name="idCatedra" class="indiceImagenOculta" value="{$Elementos['id']}">
+        <button type="submit" class="btn btn-danger">Eliminar Imagen</button>
+      </form>
+      {/if}
+    {/foreach}
   </div>
 {/if}
       

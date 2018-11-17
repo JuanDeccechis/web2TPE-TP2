@@ -1,6 +1,7 @@
 <?php
 
-define('HOME', 'Location:');
+/*define('HOME', 'Location:');*/
+define('HOME', 'Location:' .$_SERVER['REQUEST_SCHEME'] .'://'.$_SERVER['SERVER_NAME'] . ":". $_SERVER['SERVER_PORT'] . dirname($_SERVER['PHP_SELF']));
 
 class ConfigApp
 {

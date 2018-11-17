@@ -186,7 +186,19 @@ class CatedraController extends AbstractController
   }
 
   function eliminarImagen($param){
-/*esto no esta completo*/
+    if (isset($_SESSION["User"])) {
+      $id_imagen = $param[0];
+      if (isset($_POST["idCatedra"]) && ($_POST["idCatedra"] != null)) {
+        $id_catedra = $_POST["idCatedra"];
+        $this->imagenModel->borrarImagen($id_imagen, $id_catedra);
+        /*header(HOME."/enDetalle/{$id_catedra}");
+        die();*/
+      }
+    }
+    else{
+      header(HOME."/login");
+      die();
+    }
   }
 }
 

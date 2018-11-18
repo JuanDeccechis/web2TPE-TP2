@@ -7,8 +7,8 @@ class ConfigApi
     public static $RESOURCE = 'resource';
     public static $PARAMS = 'params';
     public static $RESOURCES = [
-      'comentario#GET'=> 'ComentariosApiController#Get',
-      'comentarioOrdenado#GET'=> 'ComentariosApiController#GetOrdenado',
+      'comentario#GET'=> 'ComentariosApiController#get',
+      'comentarioOrdenado#GET'=> 'ComentariosApiController#getOrdenado',
       /*''=> 'TareasController#Home',
       'home'=> 'TareasController#Home',
       'javito'=> 'TareasController#Home',
@@ -20,9 +20,9 @@ class ConfigApi
       'login'=> 'LoginController#login',
       'logout'=> 'LoginController#logout',
       'verificarLogin' => 'LoginController#verificarLogin'*/
-      'comentario#DELETE'=> 'ComentariosApiController#Delete',
-      'comentario#POST'=> 'ComentariosApiController#Insert',
-      'comentario#PUT'=> 'ComentariosApiController#Update'
+      'comentario#DELETE'=> 'ComentariosApiController#delete',
+      'comentario#POST'=> 'ComentariosApiController#insert',
+      'comentario#PUT'=> 'ComentariosApiController#update'
     ];
 
 }

@@ -11,15 +11,15 @@ class ComentariosApiController extends Api{
     $this->model = new ComentariosApiModel();
   }
 
-  function Get($param = null){
+  function get($param = null){
 
     if(isset($param)){
         $id = $param[0];
-        $arreglo = $this->model->Get($id);
+        $arreglo = $this->model->get($id);
         $data = $arreglo;
         
     }else{
-      $data = $this->model->Get();
+      $data = $this->model->get();
     }
       if(isset($data)){
         return $this->json_response($data, 200);
@@ -28,18 +28,18 @@ class ComentariosApiController extends Api{
       }
   }
 
-  function GetOrdenado($param){
+  function getOrdenado($param){
     if(isset($param)){
-      return $this->model->GetOrdenado($param[0], $param[1]);
+      return $this->model->getOrdenado($param[0], $param[1]);
     }
     else
       return $this->Get();
   }
 
-  function Delete($param = null){
+  function delete($param = null){
     if(count($param) == 1){
         $id = $param[0];
-        $r =  $this->model->Borrar($id);
+        $r =  $this->model->delete($id);
         if($r == false){
           return $this->json_response($r, 300);
         }
@@ -50,19 +50,19 @@ class ComentariosApiController extends Api{
     }
   }
 
-  function Insert($param = null){
+  function insert($param = null){
 
     $objetoJson = $this->getJSONData();
-    $r = $this->model->Insertar($objetoJson->idUsuario, $objetoJson->idCatedra, $objetoJson->textoComentario, $objetoJson->puntaje);
+    $r = $this->model->insert($objetoJson->idUsuario, $objetoJson->idCatedra, $objetoJson->textoComentario, $objetoJson->puntaje);
 
     return $this->json_response($r, 200);
   }
 
-  function Update($param = null){
+  function update($param = null){
     if(count($param) == 1){
       $id = $param[0];
       $objetoJson = $this->getJSONData();
-      $r = $this->model->GuardarEditar($objetoJson->idUsuario, $objetoJson->idCatedra, $objetoJson->textoComentario, $objetoJson->puntaje, $id);
+      $r = $this->model->update($objetoJson->idUsuario, $objetoJson->idCatedra, $objetoJson->textoComentario, $objetoJson->puntaje, $id);
       return $this->json_response($r, 200);
 
     }else{

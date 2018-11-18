@@ -74,58 +74,70 @@ USE `web2comentarios`;");
 
   }
 
-  function Get($id=null){
+  function get($id=null){
     if(isset($id)){
+      $this->db->beginTransaction();
       $sentencia = $this->db->prepare( "select * from comentario where id=?");
       $sentencia->execute(array($id));
-      return $sentencia->fetch(PDO::FETCH_ASSOC);
+      $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+      $this->db->commit();
+      $sentencia->closeCursor();
+      return $resultado;
     }
     else{
+      $this->db->beginTransaction();
       $sentencia = $this->db->prepare( "select * from comentario");
       $sentencia->execute();
       $comentarios = $sentencia->fetchAll(PDO::FETCH_ASSOC);
-      /*foreach ($comentarios as $key => $comentario) 
-        $comentario[$key]['completada'] = $comentario['completada'] == "1" ? true : false;
-*/
+      $this->db->commit();
+      $sentencia->closeCursor();
       return $comentarios;
     }
   }
 
-  function GetOrdenado($campo, $orden){
+  function getOrdenado($campo, $orden){
     if((isset($campo))&&(isset($orden))){
+      $this->db->beginTransaction();
       $sentencia = $this->db->prepare( "select * from comentario order by=(?,?)");
       $sentencia->execute(array($campo, $orden));
-      return $sentencia->fetchAll(PDO::FETCH_ASSOC);
+      $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+      $this->db->commit();
+      $sentencia->closeCursor();
+      return $resultado;
     }
     else
       return $this->Get();
   }
 
-  function Insertar($idUsuario, $idCatedra, $textoComentario, $puntaje){
+  function insert($idUsuario, $idCatedra, $textoComentario, $puntaje){
+    $this->db->beginTransaction();
     $sentencia = $this->db->prepare("INSERT INTO comentario(idUsuario,idCatedra,textoComentario, puntaje) VALUES(?,?,?,?)");
     $sentencia->execute(array($idUsuario,$idCatedra,$textoComentario, $puntaje));
+    $this->db->commit();
+    $sentencia->closeCursor();
     $lastId =  $this->db->lastInsertId();
     return $this->Get($lastId);
   }
 
-  function Borrar($id){
+  function delete($id){
     $comentario = $this->Get($id);
     if(isset($comentario)){
+      $this->db->beginTransaction();
       $sentencia = $this->db->prepare( "delete from comentario where id=?");
       $sentencia->execute(array($id));
+      $this->db->commit();
+      $sentencia->closeCursor();
       return $comentario;
     }
   }
 
-  function Completar($id){
-
-    $sentencia = $this->db->prepare( "update comentario set completada=1 where id=?");
-    $sentencia->execute(array($id));
-  }
-
-  function GuardarEditar($idUsuario, $idCatedra, $textoComentario, $puntaje, $id){
+  function update($idUsuario, $idCatedra, $textoComentario, $puntaje, $id){
+    $this->db->beginTransaction();
     $sentencia = $this->db->prepare( "update comentario set idUsuario = ?, idCatedra = ?, textoComentario = ?, puntaje = ? where id=?");
     $sentencia->execute(array($idUsuario, $idCatedra, $textoComentario, $puntaje, $id));
+    $this->db->commit();
+    $sentencia->closeCursor();
+    return $this->Get($id);
   }
 }
 

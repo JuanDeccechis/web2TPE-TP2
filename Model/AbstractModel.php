@@ -63,7 +63,7 @@ abstract class AbstractModel
   `id` int(11) NOT NULL,
   `idCatedra` int(11) NOT NULL,
   `direccion` text NOT NULL,
-  PRIMARY KEY (`id`,`idCatedra`),
+  PRIMARY KEY (`id`,`idCatedra`)
   ) ENGINE=InnoDB DEFAULT CHARSET=latin1;";
 
     $this->db->query($tabla);

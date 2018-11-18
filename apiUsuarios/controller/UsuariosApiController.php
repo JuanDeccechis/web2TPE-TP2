@@ -11,55 +11,71 @@ class UsuariosApiController extends Api{
     $this->model = new UsuariosApiModel();
   }
 
-  function Get($param = null){
-
-    if(isset($param)){
-        $id = $param[0];
-        $arreglo = $this->model->Get($id);
-        $data = $arreglo;
-        
-    }else{
-      $data = $this->model->Get();
+  private function entradaValida($parametros){
+    $resultado = true;
+    if (count($parametros) == 0) 
+      $resultado = false;
+    for ($i=0; $i < count($parametros); $i++) { 
+      if(!((isset($parametros[$i])) && ($parametros[$i] != null)))
+        $resultado = false;
     }
-      if(isset($data)){
-        return $this->json_response($data, 200);
-      }else{
-        return $this->json_response(null, 404);
-      }
+    return $resultado;
   }
 
-  function Delete($param = null){
-    if(count($param) == 1){
-        $id = $param[0];
-        $r =  $this->model->Borrar($id);
-        if($r == false){
-          return $this->json_response($r, 300);
-        }
+  function get($param = null){
+    if($this->entradaValida($param)){
+      $id = $param[0];
+      $arreglo = $this->model->get($id);
+      $data = $arreglo;  
+    }else
+      $data = $this->model->get();
+    if(isset($data))
+      return $this->json_response($data, 200);
+    else
+      return $this->json_response(null, 404);
+  }
 
+  function delete($param = null){
+    if(count($param) == 1){
+      if($this->entradaValida($param)){
+        $id = $param[0];
+        $r =  $this->model->delete($id);
+        if($r == false)
+          return $this->json_response("delete usuarios. No task specified", 300);
         return $this->json_response($r, 200);
-    }else{
-      return  $this->json_response("No task specified", 300);
-    }
+      }else
+        return  $this->json_response("delete usuarios. No task specified", 300);
+    }else
+      return  $this->json_response("delete usuarios. No task specified", 300);
   }
 
-  function Insert($param = null){
-
-    $objetoJson = $this->getJSONData();
-    $r = $this->model->Insertar($objetoJson->nickname, $objetoJson->pass);
-
-    return $this->json_response($r, 200);
-  }
-
-  function Update($param = null){
+  function insert($param = null){
     if(count($param) == 1){
+      if($this->entradaValida($param)){
+        $objetoJson = $this->getJSONData();
+        $r = $this->model->insert($objetoJson->nickname, $objetoJson->pass);
+        if($r === false)
+          return $this->json_response("insert usuarios. No task specified", 300);
+        return $this->json_response($r, 200);
+      }else
+        return  $this->json_response("insert usuarios. No task specified", 300);
+    }else
+      return  $this->json_response("insert usuarios. No task specified", 300);
+  }
+
+  function update($param = null){
+    if(count($param) == 1){
+      if($this->entradaValida($param)){
       $id = $param[0];
       $objetoJson = $this->getJSONData();
-      $r = $this->model->GuardarEditar($objetoJson->nickname, $objetoJson->pass, $id);
-      return $this->json_response($r, 200);
-
-    }else{
-      return  $this->json_response("No task specified", 300);
-    }
+      $r = $this->model->update($objetoJson->nickname, $objetoJson->pass, $id);
+      if($r == false)
+          return $this->json_response("update usuarios. No task specified", 300);
+        return $this->json_response($r, 200);
+      }else
+        return  $this->json_response("update usuarios. No task specified", 300);
+    }else
+      return  $this->json_response("update usuarios. No task specified", 300);
 
   }
 }

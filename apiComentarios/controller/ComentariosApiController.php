@@ -11,64 +11,82 @@ class ComentariosApiController extends Api{
     $this->model = new ComentariosApiModel();
   }
 
-  function get($param = null){
-
-    if(isset($param)){
-        $id = $param[0];
-        $arreglo = $this->model->get($id);
-        $data = $arreglo;
-        
-    }else{
-      $data = $this->model->get();
+  private function entradaValida($parametros){
+    $resultado = true;
+    if (count($parametros) == 0) 
+      $resultado = false;
+    for ($i=0; $i < count($parametros); $i++) { 
+      if(!((isset($parametros[$i])) && ($parametros[$i] != null)))
+        $resultado = false;
     }
-      if(isset($data)){
-        return $this->json_response($data, 200);
-      }else{
-        return $this->json_response(null, 404);
-      }
+    return $resultado;
+  }
+
+  function get($param = null){
+    if($this->entradaValida($param)){
+      $id = $param[0];
+      $arreglo = $this->model->get($id);
+      $data = $arreglo;      
+    }else
+      $data = $this->model->get();
+    if(isset($data))
+      return $this->json_response($data, 200);
+    else
+      return $this->json_response(null, 404);
+      
   }
 
   function getOrdenado($param){
-    if(isset($param)){
-      return $this->model->getOrdenado($param[0], $param[1]);
-    }
+    if(count($param) == 2)
+      if($this->entradaValida($param))
+        $data = $this->model->getOrdenado($param[0], $param[1]);
+    if(isset($data))
+      return $this->json_response($data, 200);
     else
-      return $this->Get();
+      return $this->json_response("get comentarios ordenados. No task specified", 300);
   }
 
   function delete($param = null){
     if(count($param) == 1){
+      if($this->entradaValida($param)){
         $id = $param[0];
         $r =  $this->model->delete($id);
-        if($r == false){
-          return $this->json_response($r, 300);
-        }
-
+        if($r == false)
+          return $this->json_response("delete comentarios. No task specified", 300);
         return $this->json_response($r, 200);
-    }else{
-      return  $this->json_response("No task specified", 300);
-    }
+      }else
+        return  $this->json_response("delete comentarios. No task specified", 300);
+    }else
+      return  $this->json_response("delete comentarios. No task specified", 300);
   }
 
   function insert($param = null){
-
-    $objetoJson = $this->getJSONData();
-    $r = $this->model->insert($objetoJson->idUsuario, $objetoJson->idCatedra, $objetoJson->textoComentario, $objetoJson->puntaje);
-
-    return $this->json_response($r, 200);
+    if(count($param) == 1){
+      if($this->entradaValida($param)){
+        $objetoJson = $this->getJSONData();
+        $r = $this->model->insert($objetoJson->idUsuario, $objetoJson->idCatedra, $objetoJson->textoComentario, $objetoJson->puntaje);
+        if($r === false)
+          return $this->json_response("insert comentarios. No task specified", 300);
+        return $this->json_response($r, 200);
+      }else
+        return  $this->json_response("insert comentarios. No task specified", 300);
+    }else
+      return  $this->json_response("insert comentarios. No task specified", 300);
   }
 
   function update($param = null){
     if(count($param) == 1){
-      $id = $param[0];
-      $objetoJson = $this->getJSONData();
-      $r = $this->model->update($objetoJson->idUsuario, $objetoJson->idCatedra, $objetoJson->textoComentario, $objetoJson->puntaje, $id);
-      return $this->json_response($r, 200);
-
-    }else{
-      return  $this->json_response("No task specified", 300);
-    }
-
+      if($this->entradaValida($param)){
+        $id = $param[0];
+        $objetoJson = $this->getJSONData();
+        $r = $this->model->update($objetoJson->idUsuario, $objetoJson->idCatedra, $objetoJson->textoComentario, $objetoJson->puntaje, $id);
+        if($r == false)
+          return $this->json_response("update comentarios. No task specified", 300);
+        return $this->json_response($r, 200);
+      }else
+        return  $this->json_response("update comentarios. No task specified", 300);
+    }else
+      return  $this->json_response("update comentarios. No task specified", 300);
   }
 }
  ?>

@@ -6,7 +6,7 @@ class ConfigApi
     public static $RESOURCE = 'resource';
     public static $PARAMS = 'params';
     public static $RESOURCES = [
-      'usuario#GET'=> 'UsuariosApiController#Get',
+      'usuario#GET'=> 'UsuariosApiController#get',
       /*''=> 'TareasController#Home',
       'home'=> 'TareasController#Home',
       'javito'=> 'TareasController#Home',
@@ -18,9 +18,9 @@ class ConfigApi
       'login'=> 'LoginController#login',
       'logout'=> 'LoginController#logout',
       'verificarLogin' => 'LoginController#verificarLogin'*/
-      'usuario#DELETE'=> 'UsuariosApiController#Delete',
-      'usuario#POST'=> 'UsuariosApiController#Insert',
-      'usuario#PUT'=> 'UsuariosApiController#Update'
+      'usuario#DELETE'=> 'UsuariosApiController#delete',
+      'usuario#POST'=> 'UsuariosApiController#insert',
+      'usuario#PUT'=> 'UsuariosApiController#update'
     ];
 
 }

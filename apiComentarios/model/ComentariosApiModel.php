@@ -74,8 +74,18 @@ USE `web2comentarios`;");
 
   }
 
+  private function entradaValida($parametros){
+    $resultado = true;
+    for ($i=0; $i < count($parametros); $i++) { 
+      if(!((isset($parametros[$i])) && ($parametros[$i] != null)))
+        $resultado = false;
+    }
+    return $resultado;
+  }
+
   function get($id=null){
-    if(isset($id)){
+    $parametros = array($id);
+    if($this->entradaValida($parametros)){
       $this->db->beginTransaction();
       $sentencia = $this->db->prepare( "select * from comentario where id=?");
       $sentencia->execute(array($id));
@@ -96,7 +106,8 @@ USE `web2comentarios`;");
   }
 
   function getOrdenado($campo, $orden){
-    if((isset($campo))&&(isset($orden))){
+    $parametros = array($campo, $orden);
+    if($this->entradaValida($parametros)){
       $this->db->beginTransaction();
       $sentencia = $this->db->prepare( "select * from comentario order by=(?,?)");
       $sentencia->execute(array($campo, $orden));
@@ -106,40 +117,80 @@ USE `web2comentarios`;");
       return $resultado;
     }
     else
-      return $this->Get();
+      return $this->get();
   }
 
   function insert($idUsuario, $idCatedra, $textoComentario, $puntaje){
-    $this->db->beginTransaction();
-    $sentencia = $this->db->prepare("INSERT INTO comentario(idUsuario,idCatedra,textoComentario, puntaje) VALUES(?,?,?,?)");
-    $sentencia->execute(array($idUsuario,$idCatedra,$textoComentario, $puntaje));
-    $this->db->commit();
-    $sentencia->closeCursor();
-    $lastId =  $this->db->lastInsertId();
-    return $this->Get($lastId);
+    $parametros[] = $idUsuario;
+    array_push($parametros, $idCatedra, $textoComentario, $puntaje);
+    if ($this->entradaValida($parametros)) {
+      $this->db->beginTransaction();
+      $sentencia = $this->db->prepare("INSERT INTO comentario(idUsuario,idCatedra,textoComentario, puntaje) VALUES(?,?,?,?)");
+      $sentencia->execute(array($idUsuario,$idCatedra,$textoComentario, $puntaje));
+      $lastId =  $this->db->lastInsertId();
+      $this->db->commit();
+      $resultado = $sentencia->rowCount();
+      $sentencia->closeCursor();
+      if ($resultado)
+        return $this->get($lastId);
+      else
+        return false;
+    }
+    else 
+      return false;
   }
 
   function delete($id){
-    $comentario = $this->Get($id);
-    if(isset($comentario)){
-      $this->db->beginTransaction();
-      $sentencia = $this->db->prepare( "delete from comentario where id=?");
-      $sentencia->execute(array($id));
-      $this->db->commit();
-      $sentencia->closeCursor();
-      return $comentario;
+    $parametros = array($id);
+    if ($this->entradaValida($parametros)) {
+      $comentario = $this->Get($id);
+      if(isset($comentario)){
+        $this->db->beginTransaction();
+        $sentencia = $this->db->prepare( "delete from comentario where id=?");
+        $sentencia->execute(array($id));
+        $this->db->commit();
+        $resultado = $sentencia->rowCount();
+        $sentencia->closeCursor();
+        if($resultado)
+        return $comentario;
+      else
+        return false;
+      }
     }
   }
 
   function update($idUsuario, $idCatedra, $textoComentario, $puntaje, $id){
-    $this->db->beginTransaction();
-    $sentencia = $this->db->prepare( "update comentario set idUsuario = ?, idCatedra = ?, textoComentario = ?, puntaje = ? where id=?");
-    $sentencia->execute(array($idUsuario, $idCatedra, $textoComentario, $puntaje, $id));
-    $this->db->commit();
-    $sentencia->closeCursor();
-    return $this->Get($id);
+    $parametros = array($idUsuario, $idCatedra, $textoComentario, $puntaje, $id);
+    if ($this->entradaValida($parametros)) {
+      $this->db->beginTransaction();
+      $sentencia = $this->db->prepare( "update comentario set idUsuario = ?, idCatedra = ?, textoComentario = ?, puntaje = ? where id=?");
+      $sentencia->execute(array($idUsuario, $idCatedra, $textoComentario, $puntaje, $id));
+      $this->db->commit();
+      $resultado = $sentencia->rowCount();
+      $sentencia->closeCursor();
+      if($resultado)
+        return $this->get($id);
+      else
+        return false;
+    }
+  }
+
+  function getByItem($item){
+    $parametros = array($item);
+    if($this->entradaValida($parametros)){
+      $this->db->beginTransaction();
+      $sentencia = $this->db->prepare( "select * from comentario where idCatedra = ?");
+      $sentencia->execute(array($item));
+      $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+      $this->db->commit();
+      $sentencia->closeCursor();
+      return $resultado;
+    }
+    else
+      return false;
   }
 }
+
 
 
  ?>

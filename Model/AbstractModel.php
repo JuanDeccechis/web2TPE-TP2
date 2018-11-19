@@ -59,7 +59,7 @@ abstract class AbstractModel
   UNIQUE KEY `nickname` (`nickname`)
   ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
-  CREATE TABLE `imagen` (
+  CREATE TABLE IF NOT EXISTS `imagen` (
   `id` int(11) NOT NULL,
   `idCatedra` int(11) NOT NULL,
   `direccion` text NOT NULL,

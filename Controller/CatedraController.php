@@ -134,20 +134,6 @@ class CatedraController extends AbstractController
         $id_carrera = $this->carreraModel->getBy('nombre', $nombre_carrera, 1)['id'];
         $cant_alumnos = 2;
         $afectados = $this->model->guardarEditar($nombre,$link,$cant_alumnos,$id_carrera,$id_catedra);
-        /***  Parte imagenes  ***/
-        if (($afectados)&&(isset($_FILES['imagenesEditar']))) {
-          for ($i=0; $i < count($_FILES['imagenesEditar']['name']); $i++) { 
-            $ruta = $_FILES['imagenesEditar']['name'][$i];
-            var_dump("ruta: ". $ruta. " para " . $i);
-            $rutaTempImagenes = $_FILES['imagenesEditar']['tmp_name'][$i];
-            $tamaño = strlen($ruta)-3;
-            $ext = substr($ruta, $tamaño);
-            if(($ext == "jpg") || ($ext == "png")){
-              var_dump("dato: ". $lastId . $rutaTempImagenes . $ext. " para " . $i);
-              $path = $this->imagenModel->subirImagen($id_catedra, $rutaTempImagenes, $ext);
-            }
-          }
-        }
         if ($afectados) {
           //header(HOME."/mostrarCatedras");
           //die();
@@ -183,6 +169,28 @@ class CatedraController extends AbstractController
       header(HOME."/login");
       die();
     }
+  }
+
+  function agregarImagen($idCatedra=null){
+    if (isset($_SESSION["User"])) {
+      if (isset($_FILES['imagenesAgregar']) && ($_FILES["imagenesAgregar"] != null)){
+        for ($i=0; $i < count($_FILES['imagenesAgregar']['name']); $i++) { 
+          $ruta = $_FILES['imagenesAgregar']['name'][$i];
+          $rutaTempImagenes = $_FILES['imagenesAgregar']['tmp_name'][$i];
+          $tamaño = strlen($ruta)-3;
+          $ext = substr($ruta, $tamaño);
+          if(($ext == "jpg") || ($ext == "png")){
+            if (isset($_POST["idCatedra"]) && ($_POST["idCatedra"] != null))
+              $path = $this->imagenModel->subirImagen($_POST["idCatedra"], $rutaTempImagenes, $ext);
+            else
+              if ($idCatedra != null) 
+                $path = $this->imagenModel->subirImagen($idCatedra, $rutaTempImagenes, $ext);
+          }
+        }
+      }
+    }
+    /*header(HOME."/enDetalle/{$id_catedra}");
+        die();*/
   }
 
   function eliminarImagen($param){

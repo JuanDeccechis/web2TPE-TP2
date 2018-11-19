@@ -22,13 +22,7 @@
               <option>{$carrera['nombre']}</option>
             {/foreach}
           </select>
-        </div>
-        <td> 
-          <div class="form-group">
-            <label for="imagenesEditar">Imagen</label>
-            <input type="file" id="imagenesEditar" name="imagenesEditar[]" multiple>
-          </div>
-        </td>        
+        </div>       
         <button type="submit" class="btn btn-primary">Editar Catedra</button>
       </form>
     </div>

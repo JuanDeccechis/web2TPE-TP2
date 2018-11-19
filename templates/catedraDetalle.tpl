@@ -41,10 +41,10 @@
 </table>
 
 {if $sesion_activa}
-<form method="post" action="agregarImagen">
+<form method="post" action="agregarImagen" enctype="multipart/form-data">
   <div class="form-group">
     <input name="idCatedra" class="indiceImagenOculta" value="{$Elementos['id']}">
-    <label for="imagenesAgregar">Imagen</label>
+    <label for="imagenes">Imagen</label>
     <input type="file" id="imagenesAgregar" name="imagenesAgregar[]" multiple>
   </div>
   <button type="submit" class="btn btn-primary">Agregar Imagen</button>

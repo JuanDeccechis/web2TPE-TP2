@@ -171,24 +171,23 @@ class CatedraController extends AbstractController
     }
   }
 
-  function agregarImagen($idCatedra=null){
+  function agregarImagen(){
     if (isset($_SESSION["User"])) {
-      if (isset($_FILES['imagenesAgregar']) && ($_FILES["imagenesAgregar"] != null)){
         for ($i=0; $i < count($_FILES['imagenesAgregar']['name']); $i++) { 
           $ruta = $_FILES['imagenesAgregar']['name'][$i];
+          var_dump("ruta: ". $ruta. " para " . $i);
           $rutaTempImagenes = $_FILES['imagenesAgregar']['tmp_name'][$i];
           $tamaño = strlen($ruta)-3;
           $ext = substr($ruta, $tamaño);
           if(($ext == "jpg") || ($ext == "png")){
             if (isset($_POST["idCatedra"]) && ($_POST["idCatedra"] != null))
               $path = $this->imagenModel->subirImagen($_POST["idCatedra"], $rutaTempImagenes, $ext);
-            else
-              if ($idCatedra != null) 
-                $path = $this->imagenModel->subirImagen($idCatedra, $rutaTempImagenes, $ext);
           }
+          else
+            echo "no extension";
         }
-      }
     }
+    else echo "sin sesion";
     /*header(HOME."/enDetalle/{$id_catedra}");
         die();*/
   }

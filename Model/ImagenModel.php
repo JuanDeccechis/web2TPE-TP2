@@ -44,7 +44,7 @@ class ImagenModel extends AbstractModel
   }
 
   function mostrarPorCatedra($id_catedra){
-    if(isset($item)){
+    if(isset($id_catedra)){
       $this->db->beginTransaction();
       $sentencia = $this->db->prepare( "SELECT * FROM imagen WHERE idCatedra=?");
       $sentencia->execute(array($id_catedra));

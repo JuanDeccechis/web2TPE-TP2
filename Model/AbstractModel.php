@@ -103,6 +103,15 @@ abstract class AbstractModel
 
   }
 
+  protected function entradaValida($parametros){
+    $resultado = true;
+    for ($i=0; $i < count($parametros); $i++) { 
+      if(!((isset($parametros[$i])) && ($parametros[$i] != null)))
+        $resultado = false;
+    }
+    return $resultado;
+  }
+
   function mostrar(){
     $this->db->beginTransaction();
     $sentencia = $this->db->prepare( "select * from $this->tabla");
@@ -114,33 +123,53 @@ abstract class AbstractModel
   }
 
   function eliminar($id){
-    $this->db->beginTransaction();
-    $sentencia = $this->db->prepare( "delete from $this->tabla where id=?");
-    $sentencia->execute(array($id));
-    $this->db->commit();
-    $resultado = $sentencia->rowCount();
-    $sentencia->closeCursor();
-    return $resultado;
+    $parametros = array($id);
+    if ($this->entradaValida($parametros)) {
+      $tupla = $this->mostrarUno($id);
+      if(isset($tupla)){
+        $this->db->beginTransaction();
+        $sentencia = $this->db->prepare( "delete from $this->tabla where id=?");
+        $sentencia->execute(array($id));
+        $this->db->commit();
+        $resultado = $sentencia->rowCount();
+        var_dump("elimino: " . $resultado);
+        $sentencia->closeCursor();
+        var_dump("elimino: " . $resultado);
+        if($resultado)
+          return $tupla;
+        else return false;
+      }
+      else return false;
+    }
+    else return false;
   }
 
   function mostrarUno($id){
-    $this->db->beginTransaction();
-    $sentencia = $this->db->prepare( "select * from $this->tabla where id=?");
-    $sentencia->execute(array($id));
-    $this->db->commit();
-    $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
-    $sentencia->closeCursor();
-    return $resultado;
+    $parametros = array($id);
+    if ($this->entradaValida($parametros)) {
+      $this->db->beginTransaction();
+      $sentencia = $this->db->prepare( "select * from $this->tabla where id=?");
+      $sentencia->execute(array($id));
+      $this->db->commit();
+      $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+      $sentencia->closeCursor();
+      return $resultado;
+    }
+    else return false;
   }
 
   function mostrarPorCarrera($id_carrera){
-    $this->db->beginTransaction();
-    $sentencia = $this->db->prepare( "select * from $this->tabla where id_carrera=?");
-    $sentencia->execute(array($id_carrera));
-    $this->db->commit();
-    $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
-    $sentencia->closeCursor();
-    return $resultado;
+    $parametros = array($id_carrera);
+    if ($this->entradaValida($parametros)) {
+      $this->db->beginTransaction();
+      $sentencia = $this->db->prepare( "select * from $this->tabla where id_carrera=?");
+      $sentencia->execute(array($id_carrera));
+      $this->db->commit();
+      $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+      $sentencia->closeCursor();
+      return $resultado;
+    }
+    else return false;
   }
 
 }

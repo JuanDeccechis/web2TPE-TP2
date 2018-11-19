@@ -60,6 +60,7 @@ class CatedraController extends AbstractController
         /***  Parte imagenes  ***/
         $last =  $this->model->getLast();
         $lastId = $last["id"];
+        /*var_dump("id: ". $lastId . ", afectados: " . $afectados);*/
         if (($afectados)&&(isset($_FILES['imagenes']))) {
           for ($i=0; $i < count($_FILES['imagenes']['name']); $i++) { 
             $ruta = $_FILES['imagenes']['name'][$i];
@@ -96,8 +97,8 @@ class CatedraController extends AbstractController
   function eliminar($param){
     if (isset($_SESSION["User"])) {
       $this->model->eliminar($param[0]);
-      header(HOME."/mostrarCatedras");
-      die();
+      /*header(HOME."/mostrarCatedras");
+      die();*/
     }
     else{
       //$this->view->mostrar($this->Titulo, $this->carreraModel->getNombres(), $this->listaCarreras(), 'carreras');
@@ -173,21 +174,18 @@ class CatedraController extends AbstractController
 
   function agregarImagen(){
     if (isset($_SESSION["User"])) {
-        for ($i=0; $i < count($_FILES['imagenesAgregar']['name']); $i++) { 
-          $ruta = $_FILES['imagenesAgregar']['name'][$i];
-          var_dump("ruta: ". $ruta. " para " . $i);
-          $rutaTempImagenes = $_FILES['imagenesAgregar']['tmp_name'][$i];
-          $tamaño = strlen($ruta)-3;
-          $ext = substr($ruta, $tamaño);
-          if(($ext == "jpg") || ($ext == "png")){
-            if (isset($_POST["idCatedra"]) && ($_POST["idCatedra"] != null))
-              $path = $this->imagenModel->subirImagen($_POST["idCatedra"], $rutaTempImagenes, $ext);
-          }
-          else
-            echo "no extension";
+      for ($i=0; $i < count($_FILES['imagenesAgregar']['name']); $i++) { 
+        $ruta = $_FILES['imagenesAgregar']['name'][$i];
+        var_dump("ruta: ". $ruta. " para " . $i);
+        $rutaTempImagenes = $_FILES['imagenesAgregar']['tmp_name'][$i];
+        $tamaño = strlen($ruta)-3;
+        $ext = substr($ruta, $tamaño);
+        if(($ext == "jpg") || ($ext == "png")){
+          if (isset($_POST["idCatedra"]) && ($_POST["idCatedra"] != null))
+            $path = $this->imagenModel->subirImagen($_POST["idCatedra"], $rutaTempImagenes, $ext);
         }
+      }
     }
-    else echo "sin sesion";
     /*header(HOME."/enDetalle/{$id_catedra}");
         die();*/
   }

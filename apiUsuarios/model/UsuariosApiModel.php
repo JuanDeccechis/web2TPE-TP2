@@ -75,9 +75,18 @@ USE `web2usuarios`;");
 
   }
 
+  private function entradaValida($parametros){
+    $resultado = true;
+    for ($i=0; $i < count($parametros); $i++) { 
+      if(!((isset($parametros[$i])) && ($parametros[$i] != null)))
+        $resultado = false;
+    }
+    return $resultado;
+  }
 
   function get($id=null){
-    if(isset($id)){
+    $parametros = array($id);
+    if($this->entradaValida($parametros)){
       $this->db->beginTransaction();
       $sentencia = $this->db->prepare( "select * from usuario where id=?");
       $sentencia->execute(array($id));
@@ -91,41 +100,49 @@ USE `web2usuarios`;");
       $sentencia = $this->db->prepare( "select * from usuario");
       $sentencia->execute();
       $this->db->commit();
-      $usuarios = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+      $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
       $sentencia->closeCursor();
-      /*foreach ($usuarios as $key => $usuario) 
-        $usuario[$key]['completada'] = $usuario['completada'] == "1" ? true : false;
-*/
-      return $usuarios;
+      return $resultado;
     }
   }
 
 /*************REVISAR**********/
   function insert($nickname, $pass){
-    if((isset($nickname))&&(isset($pass))){
+    $parametros = array($nickname, $pass);
+    if ($this->entradaValida($parametros)) {
       $hash = password_hash($pass, PASSWORD_DEFAULT);
       $this->db->beginTransaction();
       $sentencia = $this->db->prepare("INSERT INTO usuario(nickname, pass) VALUES(?,?)");
       $sentencia->execute(array($nickname, $hash));
       $lastId =  $this->db->lastInsertId();
       $this->db->commit();
+      $resultado = $sentencia->rowCount();
       $sentencia->closeCursor();
-      return $this->get($lastId);
+      if ($resultado)
+        return $this->get($lastId);
+      else return false;
     }
+    else return false;
   }
 
   function delete($id){
-    if (isset($id)) {
+    $parametros = array($id);
+    if ($this->entradaValida($parametros)) {
       $usuario = $this->get($id);
       if(isset($usuario)){
         $this->db->beginTransaction();
         $sentencia = $this->db->prepare( "delete from usuario where id=?");
         $sentencia->execute(array($id));
         $this->db->commit();
+        $resultado = $sentencia->rowCount();
         $sentencia->closeCursor();
-        return $usuario;
+        if($resultado)
+          return $usuario;
+        else return false;
       }
+      else return false;
     }
+    else return false;
   }
 /*
   function Completar($id){
@@ -136,16 +153,21 @@ USE `web2usuarios`;");
 
 /*************REVISAR**********/
   function update($nickname, $pass, $id){
-    if((isset($nickname))&&(isset($pass)) &&(isset($id))){
+    $parametros = array($nickname, $pass, $id);
+    if ($this->entradaValida($parametros)) {
       $hash = password_hash($pass, PASSWORD_DEFAULT);
       $this->db->beginTransaction();   
       $sentencia = $this->db->prepare( "update usuario set nickname = ?, pass = ? where id=?");
       $sentencia->execute(array($nickname, $hash, $id));
-      $lastId =  $this->db->lastInsertId();
       $this->db->commit();
+      $resultado = $sentencia->rowCount();
       $sentencia->closeCursor();
-      return $this->get($lastId);
+      if($resultado)
+        return $this->get($id);
+      else
+        return false;
     }
+    else return false;
   }
 }
  ?>

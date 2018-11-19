@@ -32,17 +32,31 @@ class CatedraModel extends AbstractModel
 
 
   function agregar($nombre,$link, $cant_alumnos, $id_carrera){
-    $sentencia = $this->db->prepare("INSERT INTO catedra(nombre, link, cant_alumnos, id_carrera) VALUES(?,?,?,?)");
-    $sentencia->execute(array($nombre,$link, $cant_alumnos, $id_carrera));
-    $resul = $sentencia->rowCount();
-    return $resul;
+    $parametros = array($nombre,$link, $cant_alumnos, $id_carrera);
+    if ($this->entradaValida($parametros)) {
+      /*$this->db->beginTransaction();   */
+      $sentencia = $this->db->prepare("INSERT INTO catedra(nombre, link, cant_alumnos, id_carrera) VALUES(?,?,?,?)");
+      $sentencia->execute(array($nombre,$link, $cant_alumnos, $id_carrera));
+      /*$this->db->commit();        si uso el commit no puedo pedir el lastInsertedId()*/
+      $resul = $sentencia->rowCount();
+      /*$sentencia->closeCursor();*/
+      return $resul;
+    }
+    else return false;
   }
 
   function guardarEditar($nombre,$link,$cant_alumnos,$id_carrera,$id){
-    $sentencia = $this->db->prepare( "update catedra set nombre = ?, link = ?, cant_alumnos = ?, id_carrera = ? where id=?");
-    $sentencia->execute(array($nombre,$link, $cant_alumnos, $id_carrera, $id));
-    $resul = $sentencia->rowCount();
-    return $resul;
+    $parametros = array($nombre,$descripcion,$id);
+    if ($this->entradaValida($parametros)) {
+      $this->db->beginTransaction(); 
+      $sentencia = $this->db->prepare( "update catedra set nombre = ?, link = ?, cant_alumnos = ?, id_carrera = ? where id=?");
+      $sentencia->execute(array($nombre,$link, $cant_alumnos, $id_carrera, $id));
+      $this->db->commit();
+      $resul = $sentencia->rowCount();
+      $sentencia->closeCursor();
+      return $resul;
+    }
+    else return false;
   }
 
   function getLast(){

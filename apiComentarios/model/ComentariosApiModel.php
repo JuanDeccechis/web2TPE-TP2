@@ -67,8 +67,8 @@ USE `web2comentarios`;");
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
   ALTER TABLE `comentario`
-  ADD CONSTRAINT `comentario_ibfk_2` FOREIGN KEY (`idCatedra`) REFERENCES `web2tp1`.`catedra` (`id`),
-  ADD CONSTRAINT `comentario_ibkf_1` FOREIGN KEY (`idUsuario`) REFERENCES `web2usuarios`.`usuario` (`id`); COMMIT;  ";
+  ADD CONSTRAINT `comentario_ibfk_2` FOREIGN KEY (`idCatedra`) REFERENCES `web2tp1`.`catedra` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `comentario_ibkf_1` FOREIGN KEY (`idUsuario`) REFERENCES `web2usuarios`.`usuario` (`id`) ON DELETE CASCADE ON UPDATE CASCADE; COMMIT;  ";
 
     $this->db->query($fk);
 
@@ -121,8 +121,7 @@ USE `web2comentarios`;");
   }
 
   function insert($idUsuario, $idCatedra, $textoComentario, $puntaje){
-    $parametros[] = $idUsuario;
-    array_push($parametros, $idCatedra, $textoComentario, $puntaje);
+    $parametros = array($idUsuario, $idCatedra, $textoComentario, $puntaje);
     if ($this->entradaValida($parametros)) {
       $this->db->beginTransaction();
       $sentencia = $this->db->prepare("INSERT INTO comentario(idUsuario,idCatedra,textoComentario, puntaje) VALUES(?,?,?,?)");
@@ -143,7 +142,7 @@ USE `web2comentarios`;");
   function delete($id){
     $parametros = array($id);
     if ($this->entradaValida($parametros)) {
-      $comentario = $this->Get($id);
+      $comentario = $this->get($id);
       if(isset($comentario)){
         $this->db->beginTransaction();
         $sentencia = $this->db->prepare( "delete from comentario where id=?");
@@ -156,7 +155,9 @@ USE `web2comentarios`;");
       else
         return false;
       }
+      else return false;
     }
+    else return false;
   }
 
   function update($idUsuario, $idCatedra, $textoComentario, $puntaje, $id){
@@ -173,6 +174,7 @@ USE `web2comentarios`;");
       else
         return false;
     }
+    else return false;
   }
 
   function getByItem($item){

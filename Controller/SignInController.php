@@ -1,6 +1,7 @@
 <?php 
 	require_once  "./View/SignInView.php";
-	require_once  "././apiUsuarios/model/UsuariosApiModel.php";
+	/*require_once  "././apiUsuarios/model/UsuariosApiModel.php";*/
+	require_once "./Model/UsuarioModel.php";
 	require_once "AbstractController.php";
 	require_once "LoginController.php";
 
@@ -8,7 +9,7 @@
 		private $LoginController;
 
 		function __construct() {
-			parent::__construct(new SignInView(), new UsuariosApiModel(), "Usuario");
+			parent::__construct(new SignInView(), new UsuarioModel(), "Usuario");
 		}
 
 		function signIn() {
@@ -20,7 +21,7 @@
 				$nombre = $_POST["Usuario"];
 	    		$pass = $_POST["Password"];
 	    		
-				$dbUser = $this->model->getByNick($nombre); 
+				$dbUser = $this->model->getUser($nombre); 
 				if($dbUser)
 					$this->view->mostrar("Registrarse", "ya existe el usuario", 'newUser');
 	      		else {

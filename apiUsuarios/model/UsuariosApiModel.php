@@ -116,13 +116,7 @@ USE `web2usuarios`;");
       return $resultado;
     }
     else{
-      $this->db->beginTransaction();
-      $sentencia = $this->db->prepare( "select * from usuario");
-      $sentencia->execute();
-      $this->db->commit();
-      $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
-      $sentencia->closeCursor();
-      return $resultado;
+      return false;
     }
   }
 

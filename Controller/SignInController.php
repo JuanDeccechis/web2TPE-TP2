@@ -20,8 +20,8 @@
 				$nombre = $_POST["Usuario"];
 	    		$pass = $_POST["Password"];
 	    		
-				$dbUser = $this->model->get($nombre); 
-				if(isset($dbUser[0]))
+				$dbUser = $this->model->getByNick($nombre); 
+				if($dbUser)
 					$this->view->mostrar("Registrarse", "ya existe el usuario", 'newUser');
 	      		else {
 	        		//No existe el usario

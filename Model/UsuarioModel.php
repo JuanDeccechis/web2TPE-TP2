@@ -6,7 +6,7 @@
 		function getUser($user){
 			$sentencia = $this->db->prepare("select * from usuario where nickname=?");
 			$sentencia->execute(array($user));
-			return $sentencia->fetchAll(PDO::FETCH_ASSOC);
+			return $sentencia->fetch(PDO::FETCH_ASSOC);
 	 	}
 
 	 	function agregar($nombre, $pass){

@@ -1,6 +1,6 @@
 <?php 
 	require_once  "./View/SignInView.php";
-	require_once  "./Model/UsuarioModel.php";
+	require_once  "././apiUsuarios/model/UsuariosApiModel.php";
 	require_once "AbstractController.php";
 	require_once "LoginController.php";
 
@@ -8,7 +8,7 @@
 		private $LoginController;
 
 		function __construct() {
-			parent::__construct(new SignInView(), new UsuarioModel(), "Usuario");
+			parent::__construct(new SignInView(), new UsuariosApiModel(), "Usuario");
 		}
 
 		function signIn() {
@@ -20,12 +20,12 @@
 				$nombre = $_POST["Usuario"];
 	    		$pass = $_POST["Password"];
 	    		
-				$dbUser = $this->model->getUser($nombre);
+				$dbUser = $this->model->get($nombre); 
 				if(isset($dbUser[0]))
 					$this->view->mostrar("Registrarse", "ya existe el usuario", 'newUser');
 	      		else {
 	        		//No existe el usario
-	        		$this->model->agregar($nombre,$pass);
+	        		$this->model->insert($nombre,$pass);
 	        		$this->LoginController = new LoginController();
 	        		$this->LoginController->verify();
 	        		header(HOME);

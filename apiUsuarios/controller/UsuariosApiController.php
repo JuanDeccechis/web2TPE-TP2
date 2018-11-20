@@ -2,13 +2,17 @@
 
 require_once "Api.php";
 require_once "./model/UsuariosApiModel.php";
+require_once "./model/PermisosApiModel.php";
 
 class UsuariosApiController extends Api{
 
   private $model;
+  private $permisosModel;
   function __construct(){
     parent::__construct();
     $this->model = new UsuariosApiModel();
+    $this->permisosModel = new PermisosApiModel();
+
   }
 
   private function entradaValida($parametros){
@@ -56,7 +60,10 @@ class UsuariosApiController extends Api{
         $r = $this->model->insert($objetoJson->nickname, $objetoJson->pass);
         if($r === false)
           return $this->json_response("insert usuarios. No task specified", 300);
-        return $this->json_response($r, 200);
+        else{
+          $this->permisosModel->insert($r["id"], 0, 0, 0, 1, 0, 1, 0);
+          return $this->json_response($r, 200);
+        }
       }else
         return  $this->json_response("insert usuarios. No task specified", 300);
     }else

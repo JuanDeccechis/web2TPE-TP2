@@ -61,12 +61,10 @@ USE `web2usuarios`;");
 
   ALTER TABLE `usuario`
   ADD PRIMARY KEY (`id`),
-/*  ADD UNIQUE KEY `nombre` (`nickname`),
-  ADD UNIQUE KEY `nombre_2` (`nickname`),*/
   ADD UNIQUE KEY `nickname` (`nickname`);
 
   ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
   ALTER TABLE `permisosusuario`
   ADD CONSTRAINT `permisosusuario_ibfk_1` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;COMMIT;  ";
@@ -106,6 +104,28 @@ USE `web2usuarios`;");
     }
   }
 
+  function getByNick($nickname=null){
+    $parametros = array($nickname);
+    if($this->entradaValida($parametros)){
+      $this->db->beginTransaction();
+      $sentencia = $this->db->prepare( "select * from usuario where nickname=?");
+      $sentencia->execute(array($nickname));
+      $this->db->commit();
+      $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+      $sentencia->closeCursor();
+      return $resultado;
+    }
+    else{
+      $this->db->beginTransaction();
+      $sentencia = $this->db->prepare( "select * from usuario");
+      $sentencia->execute();
+      $this->db->commit();
+      $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+      $sentencia->closeCursor();
+      return $resultado;
+    }
+  }
+
 /*************REVISAR**********/
   function insert($nickname, $pass){
     $parametros = array($nickname, $pass);
@@ -114,12 +134,11 @@ USE `web2usuarios`;");
       $this->db->beginTransaction();
       $sentencia = $this->db->prepare("INSERT INTO usuario(nickname, pass) VALUES(?,?)");
       $sentencia->execute(array($nickname, $hash));
-      $lastId =  $this->db->lastInsertId();
       $this->db->commit();
       $resultado = $sentencia->rowCount();
       $sentencia->closeCursor();
       if ($resultado)
-        return $this->get($lastId);
+        return $this->getByNick($nickname);
       else return false;
     }
     else return false;

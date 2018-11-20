@@ -1,12 +1,12 @@
 <?php 
 require_once  "./View/LoginView.php";
-require_once  "./Model/UsuarioModel.php";
+require_once  "././apiUsuarios/model/UsuariosApiModel.php";
 require_once  "AbstractController.php";
 
 	class LoginController extends AbstractController {
 		
 		function __construct() {
-			parent::__construct(new LoginView(), new UsuarioModel(), "Login");
+			parent::__construct(new LoginView(), new UsuariosApiModel(), "Login");
 		}
 
 		function login() {
@@ -17,10 +17,10 @@ require_once  "AbstractController.php";
 			if (((isset($_POST["Usuario"])) && ($_POST["Usuario"] != null)) && ((isset($_POST["Password"])) && ($_POST["Password"] != null))) {
 				$user = $_POST["Usuario"];
 				$pass = $_POST["Password"];
-				$dbUser = $this->model->getUser($user);
+				$dbUser = $this->model->get($user);
 
-				if(isset($dbUser[0])){
-					if (password_verify($pass, $dbUser[0]["pass"])){
+				if(isset($dbUser)){
+					if (password_verify($pass, $dbUser["pass"])){
 						session_start();
 	              		$_SESSION["User"] = $user; //user = nombre usuario
 	              		header(HOME);

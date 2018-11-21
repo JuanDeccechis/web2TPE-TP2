@@ -85,5 +85,19 @@ class UsuariosApiController extends Api{
       return  $this->json_response("update usuarios. No task specified", 300);
 
   }
+
+  function getPermiso($param = null){
+    $parametros = array($param);
+   if($this->entradaValida($parametros)){
+      $id = $parametros[0];
+      $arreglo = $this->permisosModel->get($id);
+      $data = $arreglo;  
+    }else
+      $data = $this->permisosModel->get();
+    if(isset($data))
+      return $this->json_response($data, 200);
+    else
+      return $this->json_response(null, 404);
+  }
 }
  ?>

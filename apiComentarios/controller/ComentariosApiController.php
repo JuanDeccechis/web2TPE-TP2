@@ -23,8 +23,9 @@ class ComentariosApiController extends Api{
   }
 
   function get($param = null){
-    if($this->entradaValida($param)){
-      $id = $param[0];
+    $parametros = array($param);
+    if($this->entradaValida($parametros)){
+      $id = $parametros[0];
       $arreglo = $this->model->get($id);
       $data = $arreglo;      
     }else
@@ -61,6 +62,8 @@ class ComentariosApiController extends Api{
   }
 
   function insert($param = null){
+    var_dump("insertando comentario D:");
+    var_dump($param);
     if(count($param) == 1){
       if($this->entradaValida($param)){
         $objetoJson = $this->getJSONData();

@@ -20,7 +20,9 @@ class ConfigApi
       'verificarLogin' => 'LoginController#verificarLogin'*/
       'usuario#DELETE'=> 'UsuariosApiController#delete',
       'usuario#POST'=> 'UsuariosApiController#insert',
-      'usuario#PUT'=> 'UsuariosApiController#update'
+      'usuario#PUT'=> 'UsuariosApiController#update',
+
+      'permiso#GET'=>'UsuariosApiController#getPermiso'
     ];
 
 }

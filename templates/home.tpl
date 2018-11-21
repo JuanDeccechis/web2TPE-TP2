@@ -35,4 +35,8 @@
     {include file="agregarCarreraForm.tpl"}
   {/if}
 
+<div id="permisos-container">
+     <p>Cargando...</p>   
+</div>
+
 {include file="footer.tpl"}

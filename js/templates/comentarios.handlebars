@@ -1,0 +1,28 @@
+<h2>{{titulo}}</h2>
+<table class="table">
+  <thead>
+    <th>Comentario</th>
+    <th>Usuario</th>
+    <th>Puntaje</th>
+    <th>ELIMINAR</th>
+  </thead>
+  <tbody>
+  {{#each comentarios}}
+    <tr class="">
+      <td>{{textoComentario}} </td>
+      <td> {{idUsuario}} </td>
+      <td> {{puntaje}} </td>      
+      <td> <a href="">ELIMINAR (NO ANDA!)</a> </td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+
+{{#if logueado}}
+  <form action="apiComentarios/comentario" method="post">
+    <input type="text" name="comentario" placeholder="Comentar aca" />
+    <input type="submit">
+    <p>No anda al 100% todavia</p>
+</form>
+
+{{/if}}

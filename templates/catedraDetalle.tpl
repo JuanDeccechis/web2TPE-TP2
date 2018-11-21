@@ -11,6 +11,7 @@
       <th>ELIMINAR</th>
       <th>EDITAR</th>
     {/if}
+    <th>Comentarios</th>
   </thead>
   <tbody>
         <tr class="filaCatedra">
@@ -31,11 +32,16 @@
                 </select>
               {/if}
           </td> -->
-          {if $sesion_activa}
-            
+          {if $sesion_activa}            
             <td> <a href="eliminarCatedra/{$Elementos['id']}">ELIMINAR</a> </td>
             <td> <a href="editarCatedra/{$Elementos['id']}">EDITAR</a></td>
           {/if}
+          <td>
+            <form action="enDetalle/{$Elementos['id']}/comentarios">
+              <input type="submit" value="Ver Comentarios" />
+            </form>
+          </td>
+
         </tr>
   </tbody>
 </table>
@@ -66,6 +72,5 @@
     {/foreach}
   </div>
 {/if}
-      
 {include file="footer.tpl"}
 

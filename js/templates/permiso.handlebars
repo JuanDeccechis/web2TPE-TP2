@@ -1,0 +1,29 @@
+<h4>{{titulo}}</h4>
+
+  <table class="table">
+    <thead>
+      <th>Id</th>
+      <th>Alta</th>
+      <th>Baja</th>
+      <th>Modificacion</th>
+      <th>Visualizacion</th>
+      <th>Admin</th>
+      <th>Alta comentario</th>
+      <th>Inmortal</th>
+    </thead>
+
+    <tbody>
+      {{#each permisos}}
+        <tr class="">
+          <td> {{idUsuario}}</td>
+          <td> {{alta}} [<a>{{#if alta}}QUITAR{{else}}AGREGAR{{/if}}</a>]</td>
+          <td> {{baja}} [<a>{{#if baja}}QUITAR{{else}}AGREGAR{{/if}}</a>]</td>
+          <td> {{modificacion}} [<a>{{#if modificacion}}QUITAR{{else}}AGREGAR{{/if}}</a>]</td>
+          <td> {{visualizacion}} [<a>{{#if visualizacion}}QUITAR{{else}}AGREGAR{{/if}}</a>]</td>
+          <td> {{admin}} [<a>{{#if admin}}QUITAR{{else}}AGREGAR{{/if}}</a>]</td>
+          <td> {{altaComentario}} [<a>{{#if altaComentario}}QUITAR{{else}}AGREGAR{{/if}}</a>]</td>
+          <td> {{inmortal}} [<a>{{#if inmortal}}QUITAR{{else}}AGREGAR{{/if}}</a>]</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>

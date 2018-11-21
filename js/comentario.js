@@ -2,6 +2,12 @@
 
 let templateComentarios;
 
+for (let boton of document.querySelectorAll('.eliminar_js')) {
+    boton.addEventListener('click', deleteComentario(boton.id));
+}
+
+document.querySelector('.insertar_js').addEventListener('click',insertarComentario());
+
 let id_catedra = document.querySelector("#id_catedra").title;
 let logueado = document.querySelector("#logueado").title == 0 ? false : true;
 fetch('js/templates/comentarios.handlebars')
@@ -19,6 +25,16 @@ function getComentarios(){
 	let j = r.then(json => {
 		mostrarComentarios(json);
 	});
+}
+
+function deleteComentario(id_comentario){
+	fetch('apiComentarios/comentario/' + id_comentario,{
+       "method": "DELETE",
+       "mode": "cors",
+       "headers": { "Content-Type": "application/json" }
+    })
+	.then(response => response.json())
+	.then(json => console.log("Dato eliminado: " + json));
 }
 
 function mostrarComentarios(json){

@@ -48,6 +48,7 @@ class ComentariosApiController extends Api{
   }
 
   function delete($param = null){
+    var_dump("estoy borrando");
     if(count($param) == 1){
       if($this->entradaValida($param)){
         $id = $param[0];

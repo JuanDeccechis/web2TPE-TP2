@@ -12,7 +12,11 @@
       <td>{{textoComentario}} </td>
       <td> {{idUsuario}} </td>
       <td> {{puntaje}} </td>      
-      <td> <a href="">ELIMINAR (NO ANDA!)</a> </td>
+      <td>
+        <form action="apiComentarios/comentario/{{id}}" method="delete">
+          <button id="{{id}}" class="eliminar_js" type="submit">Eliminar</button>
+        </form>
+      </td>
     </tr>
     {{/each}}
   </tbody>
@@ -21,8 +25,8 @@
 {{#if logueado}}
   <form action="apiComentarios/comentario" method="post">
     <input type="text" name="comentario" placeholder="Comentar aca" />
-    <input type="submit">
+    <input class="insertar_js" type="submit">
     <p>No anda al 100% todavia</p>
-</form>
+  </form>
 
 {{/if}}

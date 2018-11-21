@@ -38,25 +38,11 @@ USE `web2comentarios`;");
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;";
 
     $this->db->query($tabla);
-   /*
-   $sentencias = "INSERT INTO `carrera` (`id`, `nombre`, `descripcion`) VALUES
-  (1, 'carrera1', 'agregada'),
-  (2, 'car sin cat', 'agregada'),
-  (3, 'carrera 2', 'agregada'),
-  (4, 'carrera 3', 'desde frontend');
+   
+   $sentencias = "INSERT INTO `comentario` (`id`, `idUsuario`, `idCatedra`, `textoComentario`, `puntaje`) VALUES
+  (1, 1, 1, 'comentario', 4);";
 
-  INSERT INTO `catedra` (`id`, `nombre`, `link`, `cant_alumnos`, `id_carrera`) VALUES
-  (1, 'catedra 1', 'asd', 1, 1),
-  (2, 'user1', 'http/prog_1', 1, 1),
-  (3, 'catedra 2', 'http/prog_2', 1, 1),
-  (4, 'catedra 1', 'agregad', 1, 3);
-
-  INSERT INTO `usuario` (`id`, `nickname`, `pass`) VALUES
-  (1, 'juan', '\$2y\$10\$dC4rtG4juiZKIQ9IYvGpoeeh5x9DPqJ3aW37.tepitqCCRmSqIKn.'),
-  (2, 'andres', '\$2y\$10\$sw4HN33NKJ0t67BftE6kVua7xvQFYY8AVLKJPqPv8S7oDVsWXqSQO'),
-  (3, 'ultimo', '\$2y\$10\$yc5vEHT/xb0Ssv5NT.38a.kWyC3PK4q1qxwJmFPa1QQib5ZtkQOwu');";
-
-    $this->db->query($sentencias);*/
+    $this->db->query($sentencias);
     
     $fk = "ALTER TABLE `comentario`
   ADD PRIMARY KEY (`id`),
@@ -64,7 +50,7 @@ USE `web2comentarios`;");
   ADD KEY `comentario_ibfk_2` (`idCatedra`);
 
   ALTER TABLE `comentario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
   ALTER TABLE `comentario`
   ADD CONSTRAINT `comentario_ibfk_2` FOREIGN KEY (`idCatedra`) REFERENCES `web2tp1`.`catedra` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -120,7 +106,7 @@ USE `web2comentarios`;");
       return $this->get();
   }
 
-  function insert($idUsuario, $idCatedra, $textoComentario, $puntaje){
+  function insert($idUsuario, $idCatedra, $textoComentario, $puntaje){ //if usuario mal then no se crea
     $parametros = array($idUsuario, $idCatedra, $textoComentario, $puntaje);
     if ($this->entradaValida($parametros)) {
       $this->db->beginTransaction();
@@ -139,7 +125,7 @@ USE `web2comentarios`;");
       return false;
   }
 
-  function delete($id){
+  function delete($id){ //son cascade, si se borra un usuario o una catedra, se borran los comentarios
     $parametros = array($id);
     if ($this->entradaValida($parametros)) {
       $comentario = $this->get($id);

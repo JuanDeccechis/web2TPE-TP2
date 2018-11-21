@@ -48,10 +48,8 @@ USE `web2usuarios`;");
     $this->db->query($tabla);
    
    $sentencias = "INSERT INTO `usuario` (`id`, `nickname`, `pass`) VALUES
-  (1, 'juan', '\$2y\$10\$dC4rtG4juiZKIQ9IYvGpoeeh5x9DPqJ3aW37.tepitqCCRmSqIKn.'),
-  (2, 'andres', '\$2y\$10\$sw4HN33NKJ0t67BftE6kVua7xvQFYY8AVLKJPqPv8S7oDVsWXqSQO'),
-  (3, 'ultimo', '\$2y\$10\$yc5vEHT/xb0Ssv5NT.38a.kWyC3PK4q1qxwJmFPa1QQib5ZtkQOwu'),
-  (4, 'ljr', '\$2y\$10\$uiXhLZrMPEr9HHV6DdYlt.oJzWqS8hYyuIOYbAnvzuCS2yAPY1j7O');";
+  (1, 'juan', '\$2y\$10\$lcCBoAjPj2iaHCIY4TtGF.YgVS53vv7djT791gj8Vx7QZe2rjyUZu'),
+  (2, 'andres', '\$2y\$10\$c7.t6Mg50nRFy8mVknV8WeseJRH1ZTcDZPCfVFyQn9BahDJqKzOBy');";
 
     $this->db->query($sentencias);
     
@@ -64,7 +62,7 @@ USE `web2usuarios`;");
   ADD UNIQUE KEY `nickname` (`nickname`);
 
   ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
   ALTER TABLE `permisosusuario`
   ADD CONSTRAINT `permisosusuario_ibfk_1` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;COMMIT;  ";

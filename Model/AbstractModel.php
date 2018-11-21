@@ -48,23 +48,13 @@ abstract class AbstractModel
   PRIMARY KEY (`id`),
   KEY `id_carrera` (`id_carrera`)
   ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
-  
-  CREATE TABLE IF NOT EXISTS `usuario` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nickname` varchar(50) NOT NULL,
-  `pass` varchar(300) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `nombre` (`nickname`),
-  UNIQUE KEY `nombre_2` (`nickname`),
-  UNIQUE KEY `nickname` (`nickname`)
-  ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
   CREATE TABLE IF NOT EXISTS `imagen` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idCatedra` int(11) NOT NULL,
   `direccion` text NOT NULL,
   PRIMARY KEY (`id`,`idCatedra`)
-  ) ENGINE=InnoDB DEFAULT CHARSET=latin1;";
+  ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;";
 
     $this->db->query($tabla);
    
@@ -79,11 +69,6 @@ abstract class AbstractModel
   (2, 'user1', 'http/prog_1', 1, 1),
   (3, 'catedra 2', 'http/prog_2', 1, 1),
   (4, 'catedra 1', 'agregad', 1, 3);
-
-  INSERT INTO `usuario` (`id`, `nickname`, `pass`) VALUES
-  (1, 'juan', '\$2y\$10\$dC4rtG4juiZKIQ9IYvGpoeeh5x9DPqJ3aW37.tepitqCCRmSqIKn.'),
-  (2, 'andres', '\$2y\$10\$sw4HN33NKJ0t67BftE6kVua7xvQFYY8AVLKJPqPv8S7oDVsWXqSQO'),
-  (3, 'ultimo', '\$2y\$10\$yc5vEHT/xb0Ssv5NT.38a.kWyC3PK4q1qxwJmFPa1QQib5ZtkQOwu');
 
   INSERT INTO `imagen` (`id`, `idCatedra`, `direccion`) VALUES
   (31, 2, 'images/5beb6f7de4a5b.png'),

@@ -108,6 +108,7 @@ USE `web2comentarios`;");
 
   function insert($idUsuario, $idCatedra, $textoComentario, $puntaje){ //if usuario mal then no se crea
     $parametros = array($idUsuario, $idCatedra, $textoComentario, $puntaje);
+    var_dump($parametros);
     if ($this->entradaValida($parametros)) {
       $this->db->beginTransaction();
       $sentencia = $this->db->prepare("INSERT INTO comentario(idUsuario,idCatedra,textoComentario, puntaje) VALUES(?,?,?,?)");

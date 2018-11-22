@@ -25,6 +25,7 @@ class Api{ //JSONView
    }
 
    function getJSONData(){
+    var_dump($this->data);
     return json_decode($this->data);
   }
 

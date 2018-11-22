@@ -11,7 +11,6 @@ function parseURL($url)
   $arrayReturn[ConfigApi::$PARAMS] = isset($urlExploded[1]) ? array_slice($urlExploded,1) : null;
   return $arrayReturn;
 }
-
 /*tareas/:parametros*/
 if(isset($_GET['resource'])){
     $urlData = parseURL($_GET['resource']);

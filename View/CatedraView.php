@@ -24,6 +24,7 @@ class CatedraView extends AbstractView
     $template = './templates/catedraComentarios.tpl';
     $smarty = new Smarty();
     $smarty->assign('id_catedra', $id_catedra);
+    $smarty->assign('id_usuario', $id_catedra);
     $smarty->assign('sesion_activa', isset($_SESSION["User"]));
     $smarty->display($template);
   }

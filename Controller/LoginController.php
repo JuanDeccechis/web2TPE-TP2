@@ -5,7 +5,6 @@ require_once  "././apiUsuarios/model/UsuariosApiModel.php";
 require_once  "AbstractController.php";
 
 	class LoginController extends AbstractController {
-		
 		function __construct() {
 			parent::__construct(new LoginView(), new UsuariosApiModel(), "Login");
 		}
@@ -23,7 +22,8 @@ require_once  "AbstractController.php";
 				if($dbUser){
 					if (password_verify($pass, $dbUser["pass"])){
 						session_start();
-	              		$_SESSION["User"] = $user; //user = nombre usuario
+						echo( "mi login tipo: " . $dbUser["tipo"]);
+	              		$_SESSION["User"] = $dbUser["tipo"]; //user = tipo de usuario
 	              		header(HOME);
 	          		}
 	          		else 

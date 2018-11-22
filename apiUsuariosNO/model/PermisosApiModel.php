@@ -45,7 +45,7 @@ class PermisosApiModel
       /*foreach ($usuarios as $key => $usuario) 
         $usuario[$key]['completada'] = $usuario['completada'] == "1" ? true : false;
 */
-      return $usuario;
+      return $usuarios;
     }
   }
 

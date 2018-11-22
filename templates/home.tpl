@@ -9,8 +9,10 @@
       <th>Descripción</th>
       <th>VER catedras</th>
       {if $sesion_activa}
-        <th>ELIMINAR</th>
-        <th>EDITAR</th>
+        {if $tipoUsuario != 'no logeado'}
+          <th>ELIMINAR</th>
+          <th>EDITAR</th>
+        {/if}
       {/if}
     </thead>
     <tbody>
@@ -21,8 +23,12 @@
           <td> {$carrera['descripcion']} </td>
           <td> <a href="mostrarUna/{$carrera['id']}"> Ver catedras </a> </td>
           {if $sesion_activa}
-            <td> <a href="eliminar/{$carrera['id']}">ELIMINAR</a>  </td>
-            <td> <a href="editar/{$carrera['id']}">EDITAR</a> </td>
+            
+              <td> <a href="eliminar/{$carrera['id']}">ELIMINAR</a>  </td>
+            
+            
+              <td> <a href="editar/{$carrera['id']}">EDITAR</a> </td>
+            
           {/if}
         </tr>      
       {/foreach}

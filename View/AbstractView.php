@@ -4,13 +4,6 @@ require('libs/Smarty.class.php');
 abstract class AbstractView
 {
 
-    private $basehref;
-
-    public function __construct(){
-        $this->basehref = '//'.$_SERVER['SERVER_NAME']/*. ":". $_SERVER['SERVER_PORT']*/.dirname($_SERVER['PHP_SELF']).'/';     
-    }
-
-
   function show($Titulo, $table, $elementos, $template, $mensaje=''){
     $smarty = new Smarty();
     $smarty->assign('Titulo',$Titulo);
@@ -23,6 +16,10 @@ abstract class AbstractView
     else
     	$smarty->assign('home','mostrarCatedras');
     $smarty->assign('sesion_activa', isset($_SESSION["User"]));
+    if (isset($_SESSION["User"]))
+        $smarty->assign('tipoUsuario', $_SESSION["User"]);
+    else
+        $smarty->assign('tipoUsuario', "no logeado");
     $smarty->display($template);
   }
 
@@ -40,6 +37,10 @@ abstract class AbstractView
         $smarty->assign('home','mostrarCatedras');
     $smarty->assign('sesion_activa', isset($_SESSION["User"]));
     $smarty->assign('carreras', $carreras);
+    if (isset($_SESSION["User"]))
+        $smarty->assign('tipoUsuario', $_SESSION["User"]);
+    else
+        $smarty->assign('tipoUsuario', "no logeado");
     $smarty->display($template);
   }
 
@@ -57,6 +58,10 @@ abstract class AbstractView
     $smarty->assign('sesion_activa', isset($_SESSION["User"]));
     $smarty->assign('carreras', $carreras);
     $smarty->assign('imagenes', $imagenes);
+    if (isset($_SESSION["User"]))
+        $smarty->assign('tipoUsuario', $_SESSION["User"]);
+    else
+        $smarty->assign('tipoUsuario', "no logeado");
     $smarty->display($template);
   }
 

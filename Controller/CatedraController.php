@@ -28,7 +28,7 @@ class CatedraController extends AbstractController
   }
 
   function mostrar(){
-    $this->view->mostrar($this->Titulo, $this->carreraModel->getNombres(), $this->listaCarreras(), 'carreras');
+    $this->view->mostrar($this->Titulo, $this->carreraModel->getNombres(), $this->listaCarreras(), 'carreras',$this->permisos);
   }
 
   function mostrarUna($param){
@@ -37,7 +37,7 @@ class CatedraController extends AbstractController
     $catedras = $this->model->mostrarPorCarrera($id_carrera);
     $carrera["catedras"] = $catedras;
     $lista_carreras [0] = $carrera;
-    $this->view->mostrar($this->Titulo, $this->carreraModel->getNombres(), $lista_carreras, 'catedras');
+    $this->view->mostrar($this->Titulo, $this->carreraModel->getNombres(), $lista_carreras, 'catedras', $this->permisos);
   }
 
   function mostrarEnDetalle($params) {
@@ -45,7 +45,7 @@ class CatedraController extends AbstractController
     $catedra = $this->model->mostrarUno($id_catedra);
     $carrera = $this->carreraModel->mostrarUno($catedra['id_carrera']);
     $imagenes = $this->imagenModel->mostrarPorCatedra($id_catedra);
-    $this->view->detalle($carrera, $catedra, $imagenes);
+    $this->view->detalle($carrera, $catedra, $imagenes, $this->permisos);
   }
 
   function agregar(){
@@ -79,17 +79,17 @@ class CatedraController extends AbstractController
           //die();
         }else{
           $resul = "";
-          $this->view->resultado("agregar catedra", $afectados);
+          $this->view->resultado("agregar catedra", $afectados, $this->permisos);
         }
       }
       else{
         $catedras = $this->model->mostrar();
-        $this->view->mostrar($this->Titulo, $this->carreraModel->getNombres(), $this->listaCarreras(), 'carreras', "Debe completar los campos");
+        $this->view->mostrar($this->Titulo, $this->carreraModel->getNombres(), $this->listaCarreras(), 'carreras', "Debe completar los campos", $this->permisos);
       }
 
     }
     else
-      //$this->view->mostrar($this->Titulo, $this->carreraModel->getNombres(), $this->listaCarreras(), 'carreras');
+      //$this->view->mostrar($this->Titulo, $this->carreraModel->getNombres(), $this->listaCarreras(), 'carreras', $this->permisos);
       header(HOME."/login");
       die();
   }
@@ -101,7 +101,7 @@ class CatedraController extends AbstractController
       die();*/
     }
     else{
-      //$this->view->mostrar($this->Titulo, $this->carreraModel->getNombres(), $this->listaCarreras(), 'carreras');
+      //$this->view->mostrar($this->Titulo, $this->carreraModel->getNombres(), $this->listaCarreras(), 'carreras', $this->permisos);
       header(HOME."/login");
      die();
     }
@@ -112,10 +112,10 @@ class CatedraController extends AbstractController
       $idCatedra = $param[0];
       $catedra = $this->model->mostrarUno($idCatedra);
       $lista_carreras = $this->listaCarreras();
-      $this->view->mostrarEditarCatedra($this->Titulo, $catedra, $lista_carreras);
+      $this->view->mostrarEditarCatedra($this->Titulo, $catedra, $lista_carreras, $this->permisos);
     }
     else{
-      //$this->view->mostrar($this->Titulo, $this->carreraModel->getNombres(), $this->listaCarreras(), 'carreras');
+      //$this->view->mostrar($this->Titulo, $this->carreraModel->getNombres(), $this->listaCarreras(), 'carreras', $this->permisos);
       header(HOME."/login");
       die();
     }
@@ -140,7 +140,7 @@ class CatedraController extends AbstractController
           //die();
         }else{
           $resul = "";
-          $this->view->resultado("editar catedra", $afectados);
+          $this->view->resultado("editar catedra", $afectados, $this->permisos);
         } 
       }
       else{
@@ -166,7 +166,7 @@ class CatedraController extends AbstractController
       die();
     }
     else{
-      //$this->view->mostrar($this->Titulo, $this->carreraModel->getNombres(), $this->listaCarreras(), 'carreras');
+      //$this->view->mostrar($this->Titulo, $this->carreraModel->getNombres(), $this->listaCarreras(), 'carreras', $this->permisos);
       header(HOME."/login");
       die();
     }

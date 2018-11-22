@@ -26,7 +26,7 @@
 					$this->view->mostrar("Registrarse", "ya existe el usuario", 'newUser');
 	      		else {
 	        		//No existe el usario
-	        		$this->model->insert($nombre,$pass);
+	        		$r = $this->model->insert($nombre,$pass, "comun");
 	        		$this->LoginController = new LoginController();
 	        		$this->LoginController->verify();
 	        		header(HOME);

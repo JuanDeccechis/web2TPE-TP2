@@ -25,10 +25,14 @@
                   </select>
                 </div>
               </div>
-              <div class="form-group">
-                <label for="imagen">Imagen</label>
-                <input type="file" id="imagenes" name="imagenes[]" multiple>
-              </div>
+              {if $sesion_activa}
+                {if $tipoUsuario ne 'no logeado' and $tipoUsuario ne 'comun'}
+                  <div class="form-group">
+                    <label for="imagen">Imagen</label>
+                    <input type="file" id="imagenes" name="imagenes[]" multiple>
+                  </div>
+                {/if}
+              {/if}
               <h3>{$Mensaje}</h3>
               <div class="col-4">
                 <button type="submit" class="btn btn-primary">Crear Catedra</button>

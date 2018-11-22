@@ -2,7 +2,6 @@
 <table class="table">
   <thead>
     <th>Comentario</th>
-    <th>Usuario</th>
     <th>Puntaje</th>
     <th>ELIMINAR</th>
   </thead>
@@ -10,10 +9,9 @@
   {{#each comentarios}}
     <tr class="">
       <td>{{textoComentario}} </td>
-      <td> {{idUsuario}} </td>
       <td> {{puntaje}} </td>      
       <td>
-        <form action="apiComentarios/comentario/{{id}}" method="DELETE">
+        <form action="">
           <button id="{{id}}" class="eliminar_js" type="submit">Eliminar</button>
         </form>
       </td>
@@ -23,14 +21,9 @@
 </table>
 
 {{#if logueado}}
-  <form action="apiComentarios/comentario/1" method="post">
-    <input id="input_usuario" type="text" title="Id Usuario" name="idUsuario" value={{idUsuario}} />
-    <input id="input_catedra" type="text" title="Id Catedra" name="idCatedra" readonly="readonly" value={{catedra}} />
+  <form action="">
     <input id="input_comentario" type="text" title="Comentario" name="textoComentario" placeholder="Comentar aca" />
     <input id="input_puntaje" type="number" title="Puntaje" name="puntaje" min=1 max=5 value=3 />
     <button type="submit" class="insertar_js">Comentar</button>
-    <p>No anda. Problemas con json_decode</p>
   </form>
-
-<span id="id_usuario" class="oculto" title="{{idUsuario}}"></span>
 {{/if}}

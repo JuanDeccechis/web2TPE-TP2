@@ -4,11 +4,13 @@ document.addEventListener("DOMContentLoaded", function(){
 let templateComentarios;
 
 
-
-
-
 let id_catedra = document.querySelector("#id_catedra").title;
 let logueado = document.querySelector("#logueado").title == 0 ? false : true;
+
+
+
+
+
 fetch('js/templates/comentarios.handlebars')
 .then(response => response.text())
 .then(template => {
@@ -20,32 +22,12 @@ function getComentarios(){
 	fetch('apiComentarios/comentario?id_catedra=' + id_catedra)
 	.then(response => response.json())
 	.then(json => {
+		console.log(json);
 		mostrarComentarios(json);
 	})
 	.catch(error => {
 		console.log("Error al obtener comentarios, json(): " + error)
 	});
-}
-
-function insertarComentario(){
-	let id_usuario = document.querySelector("#id_usuario").title;
-	let texto_comentario = document.querySelector("#input_comentario").value;
-	let objeto = '{"idUsuario" : ' + id_usuario + ', "idCatedra" : ' + id_catedra + ', "textoComentario" : "' + texto_comentario + '", "puntaje" : 0}';
-	fetch('apiComentarios/comentario/' + id_comentario,{
-       "method": "POST",
-       "headers": { "Content-Type": "application/json" }
-    ,"body": JSON.stringify(objeto)})
-	.then(response => console.log("POST status: " + response.status))
-	.catch(error => console.log("Error al insertar comentario: " + error));
-}
-
-function eliminarComentario(id_comentario){
-	fetch('apiComentarios/comentario/' + id_comentario,{
-       "method": "DELETE",
-       "headers": { "Content-Type": "application/json" }
-    })
-	.then(response => response.json())
-	.catch(error => console.log("Error al eliminar comentario: " + error));
 }
 
 function mostrarComentarios(json){
@@ -55,15 +37,43 @@ function mostrarComentarios(json){
 		logueado, logueado,
 		comentarios: json
 	}
+	let container = document.querySelector("#comentarios-container");
 	let html = templateComentarios(context);
-	document.querySelector("#comentarios-container").innerHTML = html;
+	container.innerHTML = html;
+
+	for (let boton of document.querySelectorAll('.eliminar_js')) {
+	    boton.addEventListener('click', function(){
+	    	event.preventDefault();
+			fetch('apiComentarios/comentario/' + boton.id, {
+				"method": "DELETE", 
+				"headers": { "Content-Type": "application/json" }
+			})
+			.then(response => getComentarios())
+			.catch(error => console.log("Error al eliminar comentario: " + error));
+	    });
+	}
+
+	if(logueado){
+		document.querySelectorAll('.insertar_js')[0].addEventListener('click', insertarComentario);
+	}
 }
 
-
-for (let boton of document.querySelectorAll('.eliminar_js')) {
-    boton.addEventListener('click', eliminarComentario(boton.id));
+function insertarComentario(){
+	event.preventDefault();
+	let texto_comentario = document.querySelector("#input_comentario").value;
+	let puntaje = document.querySelector("#input_puntaje").value;
+	let objeto = {
+					"idCatedra" : id_catedra, 
+					"textoComentario" : texto_comentario, 
+					"puntaje" : puntaje
+				};
+	console.log(JSON.stringify(objeto));
+	fetch('apiComentarios/comentario/99',{
+       method: "POST",
+       headers: { "Content-Type": "application/json" },
+       body: JSON.stringify(objeto)})
+	.then(response => getComentarios())
+	.catch(error => console.log("Error al insertar comentario: " + error));
 }
-
-document.querySelector('.insertar_js').addEventListener('click', insertarComentario());
 
 });

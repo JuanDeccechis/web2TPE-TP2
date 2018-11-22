@@ -66,18 +66,17 @@ class ComentariosApiController extends Api{
     if(count($param) == 1){
       if($this->entradaValida($param)){
         $objetoJson = $this->getJSONData();
-        var_dump($objetoJson);
         if(isset($objetoJson)){
-          $r = $this->model->insert($objetoJson->idUsuario, $objetoJson->idCatedra, $objetoJson->textoComentario, $objetoJson->puntaje);
+          $r = $this->model->insert($objetoJson->idCatedra, $objetoJson->textoComentario, $objetoJson->puntaje);
           if($r === false)
-            return $this->json_response("insert comentarios. Fallo al insertar", 300);
+            return $this->json_response("insert comentarios. Fallo al insertar", 301);
         return $this->json_response($r, 200);
         }
-        else return  $this->json_response("insert comentarios. JSONData no valido", 300);
+        else return  $this->json_response("insert comentarios. JSONData no valido", 302);
       }else
-        return  $this->json_response("insert comentarios. Parametros mal incluidos", 300);
+        return  $this->json_response("insert comentarios. Parametros mal incluidos", 303);
     }else
-      return  $this->json_response("insert comentarios. Cantidad de parametros incorrecta", 300);
+      return  $this->json_response("insert comentarios. Cantidad de parametros incorrecta", 304);
   }
 
   function update($param = null){
@@ -85,7 +84,7 @@ class ComentariosApiController extends Api{
       if($this->entradaValida($param)){
         $id = $param[0];
         $objetoJson = $this->getJSONData();
-        $r = $this->model->update($objetoJson->idUsuario, $objetoJson->idCatedra, $objetoJson->textoComentario, $objetoJson->puntaje, $id);
+        $r = $this->model->update($objetoJson->idCatedra, $objetoJson->textoComentario, $objetoJson->puntaje, $id);
         if($r == false)
           return $this->json_response("update comentarios. No task specified", 300);
         return $this->json_response($r, 200);

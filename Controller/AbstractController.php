@@ -3,7 +3,6 @@
  * 
  */
 require_once  "SecuredController.php";
-require_once "././apiUsuarios/model/UsuariosApiModel.php";
  class AbstractController extends SecuredController{
 
 	protected $view;
@@ -15,10 +14,6 @@ require_once "././apiUsuarios/model/UsuariosApiModel.php";
 		$this->view = $view;
     	$this->model = $model;
     	$this->Titulo = $Titulo;
-    	/*if (isset($_SESSION["User"])) {
-    		$this->initUsuario();
-    		var_dump("construct permisos: " . $this->permisos["baja"]);
-    	}*/
 	}
 
 }

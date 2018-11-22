@@ -28,7 +28,7 @@ class CatedraController extends AbstractController
   }
 
   function mostrar(){
-    $this->view->mostrar($this->Titulo, $this->carreraModel->getNombres(), $this->listaCarreras(), 'carreras',$this->permisos);
+    $this->view->mostrar($this->Titulo, $this->carreraModel->getNombres(), $this->listaCarreras(), 'carreras');
   }
 
   function mostrarUna($param){
@@ -37,7 +37,7 @@ class CatedraController extends AbstractController
     $catedras = $this->model->mostrarPorCarrera($id_carrera);
     $carrera["catedras"] = $catedras;
     $lista_carreras [0] = $carrera;
-    $this->view->mostrar($this->Titulo, $this->carreraModel->getNombres(), $lista_carreras, 'catedras', $this->permisos);
+    $this->view->mostrar($this->Titulo, $this->carreraModel->getNombres(), $lista_carreras, 'catedras');
   }
 
   function mostrarEnDetalle($params) {
@@ -45,7 +45,7 @@ class CatedraController extends AbstractController
     $catedra = $this->model->mostrarUno($id_catedra);
     $carrera = $this->carreraModel->mostrarUno($catedra['id_carrera']);
     $imagenes = $this->imagenModel->mostrarPorCatedra($id_catedra);
-    $this->view->detalle($carrera, $catedra, $imagenes, $this->permisos);
+    $this->view->detalle($carrera, $catedra, $imagenes);
   }
 
   function agregar(){
@@ -79,17 +79,17 @@ class CatedraController extends AbstractController
           //die();
         }else{
           $resul = "";
-          $this->view->resultado("agregar catedra", $afectados, $this->permisos);
+          $this->view->resultado("agregar catedra", $afectados);
         }
       }
       else{
         $catedras = $this->model->mostrar();
-        $this->view->mostrar($this->Titulo, $this->carreraModel->getNombres(), $this->listaCarreras(), 'carreras', "Debe completar los campos", $this->permisos);
+        $this->view->mostrar($this->Titulo, $this->carreraModel->getNombres(), $this->listaCarreras(), 'carreras', "Debe completar los campos");
       }
 
     }
     else
-      //$this->view->mostrar($this->Titulo, $this->carreraModel->getNombres(), $this->listaCarreras(), 'carreras', $this->permisos);
+      //$this->view->mostrar($this->Titulo, $this->carreraModel->getNombres(), $this->listaCarreras(), 'carreras');
       header(HOME."/login");
       die();
   }
@@ -101,7 +101,7 @@ class CatedraController extends AbstractController
       die();*/
     }
     else{
-      //$this->view->mostrar($this->Titulo, $this->carreraModel->getNombres(), $this->listaCarreras(), 'carreras', $this->permisos);
+      //$this->view->mostrar($this->Titulo, $this->carreraModel->getNombres(), $this->listaCarreras(), 'carreras');
       header(HOME."/login");
      die();
     }
@@ -112,10 +112,10 @@ class CatedraController extends AbstractController
       $idCatedra = $param[0];
       $catedra = $this->model->mostrarUno($idCatedra);
       $lista_carreras = $this->listaCarreras();
-      $this->view->mostrarEditarCatedra($this->Titulo, $catedra, $lista_carreras, $this->permisos);
+      $this->view->mostrarEditarCatedra($this->Titulo, $catedra, $lista_carreras);
     }
     else{
-      //$this->view->mostrar($this->Titulo, $this->carreraModel->getNombres(), $this->listaCarreras(), 'carreras', $this->permisos);
+      //$this->view->mostrar($this->Titulo, $this->carreraModel->getNombres(), $this->listaCarreras(), 'carreras');
       header(HOME."/login");
       die();
     }
@@ -140,7 +140,7 @@ class CatedraController extends AbstractController
           //die();
         }else{
           $resul = "";
-          $this->view->resultado("editar catedra", $afectados, $this->permisos);
+          $this->view->resultado("editar catedra", $afectados);
         } 
       }
       else{
@@ -166,7 +166,7 @@ class CatedraController extends AbstractController
       die();
     }
     else{
-      //$this->view->mostrar($this->Titulo, $this->carreraModel->getNombres(), $this->listaCarreras(), 'carreras', $this->permisos);
+      //$this->view->mostrar($this->Titulo, $this->carreraModel->getNombres(), $this->listaCarreras(), 'carreras');
       header(HOME."/login");
       die();
     }
@@ -174,30 +174,40 @@ class CatedraController extends AbstractController
 
   function agregarImagen(){
     if (isset($_SESSION["User"])) {
-      for ($i=0; $i < count($_FILES['imagenesAgregar']['name']); $i++) { 
-        $ruta = $_FILES['imagenesAgregar']['name'][$i];
-        var_dump("ruta: ". $ruta. " para " . $i);
-        $rutaTempImagenes = $_FILES['imagenesAgregar']['tmp_name'][$i];
-        $tamaño = strlen($ruta)-3;
-        $ext = substr($ruta, $tamaño);
-        if(($ext == "jpg") || ($ext == "png")){
-          if (isset($_POST["idCatedra"]) && ($_POST["idCatedra"] != null))
-            $path = $this->imagenModel->subirImagen($_POST["idCatedra"], $rutaTempImagenes, $ext);
+      if (($_SESSION["User"] == "inmortal") || ($_SESSION["User"] == "admin")) {
+        for ($i=0; $i < count($_FILES['imagenesAgregar']['name']); $i++) { 
+          $ruta = $_FILES['imagenesAgregar']['name'][$i];
+          var_dump("ruta: ". $ruta. " para " . $i);
+          $rutaTempImagenes = $_FILES['imagenesAgregar']['tmp_name'][$i];
+          $tamaño = strlen($ruta)-3;
+          $ext = substr($ruta, $tamaño);
+          if(($ext == "jpg") || ($ext == "png")){
+            if (isset($_POST["idCatedra"]) && ($_POST["idCatedra"] != null))
+              $path = $this->imagenModel->subirImagen($_POST["idCatedra"], $rutaTempImagenes, $ext);
+          }
         }
       }
+      else echo("el usuario no tiene permisos"); //nunca se muestra, por el header
     }
-    /*header(HOME."/enDetalle/{$id_catedra}");
-        die();*/
+    header(HOME."/enDetalle/{$id_catedra}");
+        die();
   }
 
   function eliminarImagen($param){
     if (isset($_SESSION["User"])) {
-      $id_imagen = $param[0];
-      if (isset($_POST["idCatedra"]) && ($_POST["idCatedra"] != null)) {
-        $id_catedra = $_POST["idCatedra"];
-        $this->imagenModel->borrarImagen($id_imagen, $id_catedra);
-        /*header(HOME."/enDetalle/{$id_catedra}");
-        die();*/
+      if (($_SESSION["User"] == "inmortal") || ($_SESSION["User"] == "admin")) {
+        $id_imagen = $param[0];
+        if (isset($_POST["idCatedra"]) && ($_POST["idCatedra"] != null)) {
+          $id_catedra = $_POST["idCatedra"];
+          $this->imagenModel->borrarImagen($id_imagen, $id_catedra);
+          header(HOME."/enDetalle/{$id_catedra}");
+          die();
+        }
+      }
+      else{
+        echo("el usuario no tiene permisos"); //nunca se muestra, por el header
+        header(HOME."/login");
+        die();
       }
     }
     else{
@@ -208,3 +218,4 @@ class CatedraController extends AbstractController
 }
 
  ?>
+

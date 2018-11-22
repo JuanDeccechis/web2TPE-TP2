@@ -23,12 +23,8 @@
           <td> {$carrera['descripcion']} </td>
           <td> <a href="mostrarUna/{$carrera['id']}"> Ver catedras </a> </td>
           {if $sesion_activa}
-            
               <td> <a href="eliminar/{$carrera['id']}">ELIMINAR</a>  </td>
-            
-            
               <td> <a href="editar/{$carrera['id']}">EDITAR</a> </td>
-            
           {/if}
         </tr>      
       {/foreach}

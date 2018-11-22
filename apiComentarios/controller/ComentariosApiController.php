@@ -65,10 +65,12 @@ class ComentariosApiController extends Api{
     if(count($param) == 1){
       if($this->entradaValida($param)){
         $objetoJson = $this->getJSONData();
-        $r = $this->model->insert($objetoJson->idCatedra, $objetoJson->textoComentario, $objetoJson->puntaje);
-        if($r === false)
-          return $this->json_response("insert comentarios. No task specified", 300);
-        return $this->json_response($r, 200);
+        if(isset($objetoJson)){
+          $r = $this->model->insert($objetoJson->idCatedra, $objetoJson->textoComentario, $objetoJson->puntaje);
+          if($r === false)
+            return $this->json_response("insert comentarios. No task specified", 300);
+          return $this->json_response($r, 200);
+        }
       }else
         return  $this->json_response("insert comentarios. No task specified", 300);
     }else

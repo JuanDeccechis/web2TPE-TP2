@@ -107,7 +107,7 @@ USE `web2comentarios`;");
     $parametros = array($idCatedra, $textoComentario, $puntaje);
     if ($this->entradaValida($parametros)) {
       $this->db->beginTransaction();
-      $sentencia = $this->db->prepare("INSERT INTO comentario(idCatedra,textoComentario, puntaje) VALUES(?,?,?,?)");
+      $sentencia = $this->db->prepare("INSERT INTO comentario(idCatedra,textoComentario, puntaje) VALUES(?,?,?)");
       $sentencia->execute(array($idCatedra,$textoComentario, $puntaje));
       $lastId =  $this->db->lastInsertId();
       $this->db->commit();

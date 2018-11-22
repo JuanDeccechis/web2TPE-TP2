@@ -60,7 +60,7 @@ class CarreraModel extends AbstractModel
       $resultado = $sentencia->rowCount();
       $sentencia->closeCursor();
       if ($resultado)
-        return $this->get($lastId);
+        return $this->mostrar($lastId);
       else return false;
     }
     else return false;
@@ -76,7 +76,7 @@ class CarreraModel extends AbstractModel
       $resultado = $sentencia->rowCount();
       $sentencia->closeCursor();
       if($resultado)
-        return $this->get($id);
+        return $this->mostrar($id);
       else
         return false;
     }

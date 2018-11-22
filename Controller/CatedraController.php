@@ -42,10 +42,17 @@ class CatedraController extends AbstractController
 
   function mostrarEnDetalle($params) {
     $id_catedra = $params[0];
-    $catedra = $this->model->mostrarUno($id_catedra);
-    $carrera = $this->carreraModel->mostrarUno($catedra['id_carrera']);
-    $imagenes = $this->imagenModel->mostrarPorCatedra($id_catedra);
-    $this->view->detalle($carrera, $catedra, $imagenes, $id_catedra);
+    if(isset($params[1])){ // mostrar comentarios
+      if($params[1] == "comentarios"){
+        $this->view->comentarios($id_catedra);
+      }
+    }
+    else{
+      $catedra = $this->model->mostrarUno($id_catedra);
+      $carrera = $this->carreraModel->mostrarUno($catedra['id_carrera']);
+      $imagenes = $this->imagenModel->mostrarPorCatedra($id_catedra);
+      $this->view->detalle($carrera, $catedra, $imagenes, $id_catedra);
+    }
   }
 
   function agregar(){
@@ -75,8 +82,8 @@ class CatedraController extends AbstractController
           }
         }
         if ($afectados) {//debería borrar el header!!!!
-          //header(HOME."/mostrarCatedras");
-          //die();
+          header(HOME."/mostrarCatedras");
+          die();
         }else{
           $resul = "";
           $this->view->resultado("agregar catedra", $afectados);
@@ -97,8 +104,8 @@ class CatedraController extends AbstractController
   function eliminar($param){
     if (isset($_SESSION["User"])) {
       $this->model->eliminar($param[0]);
-      /*header(HOME."/mostrarCatedras");
-      die();*/
+      header(HOME."/mostrarCatedras");
+      die();
     }
     else{
       //$this->view->mostrar($this->Titulo, $this->carreraModel->getNombres(), $this->listaCarreras(), 'carreras');
@@ -136,21 +143,21 @@ class CatedraController extends AbstractController
         $cant_alumnos = 2;
         $afectados = $this->model->guardarEditar($nombre,$link,$cant_alumnos,$id_carrera,$id_catedra);
         if ($afectados) {
-          //header(HOME."/mostrarCatedras");
-          //die();
+          header(HOME."/mostrarCatedras");
+          die();
         }else{
           $resul = "";
           $this->view->resultado("editar catedra", $afectados);
         } 
       }
       else{
-        //header(HOME."/mostrarCatedras");
-        //die();
+        header(HOME."/mostrarCatedras");
+        die();
       }
     }
     else{
-      //header(HOME."/login");
-      //die();
+      header(HOME."/login");
+      die();
     }
   }
 

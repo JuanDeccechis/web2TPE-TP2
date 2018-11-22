@@ -20,6 +20,15 @@ class CatedraView extends AbstractView
     $this->showDetalleCatedra('Información detallada de catedra', 'catedra', $catedra, 'templates/catedraDetalle.tpl', $carrera, $id_catedra, $imagenes);
   }
 
+  function comentarios($id_catedra) {  
+    $template = './templates/catedraComentarios.tpl'; 
+    $smarty = new Smarty(); 
+    $smarty->assign('id_catedra', $id_catedra); 
+    $smarty->assign('id_usuario', $id_catedra); 
+    $smarty->assign('sesion_activa', isset($_SESSION["User"])); 
+    $smarty->display($template);
+  }
+
 }
 
 

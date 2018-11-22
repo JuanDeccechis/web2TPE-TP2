@@ -15,5 +15,6 @@ require_once  "SecuredController.php";
     	$this->model = $model;
     	$this->Titulo = $Titulo;
 	}
+
 }
 ?>

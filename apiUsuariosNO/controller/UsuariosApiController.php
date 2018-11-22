@@ -2,13 +2,17 @@
 
 require_once "Api.php";
 require_once "./model/UsuariosApiModel.php";
+require_once "./model/PermisosApiModel.php";
 
 class UsuariosApiController extends Api{
 
   private $model;
+  private $permisosModel;
   function __construct(){
     parent::__construct();
     $this->model = new UsuariosApiModel();
+    $this->permisosModel = new PermisosApiModel();
+
   }
 
   private function entradaValida($parametros){
@@ -53,11 +57,13 @@ class UsuariosApiController extends Api{
     if(count($param) == 1){
       if($this->entradaValida($param)){
         $objetoJson = $this->getJSONData();
-        $r = $this->model->insert($objetoJson->nickname, $objetoJson->pass, "comun");
+        $r = $this->model->insert($objetoJson->nickname, $objetoJson->pass);
         if($r === false)
           return $this->json_response("insert usuarios. No task specified", 300);
-        else
+        else{
+          $this->permisosModel->insert($r["id"], 0, 0, 0, 1, 0, 1, 0);
           return $this->json_response($r, 200);
+        }
       }else
         return  $this->json_response("insert usuarios. No task specified", 300);
     }else
@@ -78,20 +84,6 @@ class UsuariosApiController extends Api{
     }else
       return  $this->json_response("update usuarios. No task specified", 300);
 
-  }
-
-  function getPermiso($param = null){
-    $parametros = array($param);
-   if($this->entradaValida($parametros)){
-      $id = $parametros[0];
-      $arreglo = $this->permisosModel->get($id);
-      $data = $arreglo;  
-    }else
-      $data = $this->permisosModel->get();
-    if(isset($data))
-      return $this->json_response($data, 200);
-    else
-      return $this->json_response(null, 404);
   }
 }
  ?>

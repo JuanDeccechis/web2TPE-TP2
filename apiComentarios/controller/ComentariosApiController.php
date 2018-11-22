@@ -48,7 +48,6 @@ class ComentariosApiController extends Api{
   }
 
   function delete($param = null){
-    var_dump("estoy borrando");
     if(count($param) == 1){
       if($this->entradaValida($param)){
         $id = $param[0];
@@ -66,17 +65,14 @@ class ComentariosApiController extends Api{
     if(count($param) == 1){
       if($this->entradaValida($param)){
         $objetoJson = $this->getJSONData();
-        if(isset($objetoJson)){
-          $r = $this->model->insert($objetoJson->idCatedra, $objetoJson->textoComentario, $objetoJson->puntaje);
-          if($r === false)
-            return $this->json_response("insert comentarios. Fallo al insertar", 301);
+        $r = $this->model->insert($objetoJson->idCatedra, $objetoJson->textoComentario, $objetoJson->puntaje);
+        if($r === false)
+          return $this->json_response("insert comentarios. No task specified", 300);
         return $this->json_response($r, 200);
-        }
-        else return  $this->json_response("insert comentarios. JSONData no valido", 302);
       }else
-        return  $this->json_response("insert comentarios. Parametros mal incluidos", 303);
+        return  $this->json_response("insert comentarios. No task specified", 300);
     }else
-      return  $this->json_response("insert comentarios. Cantidad de parametros incorrecta", 304);
+      return  $this->json_response("insert comentarios. No task specified", 300);
   }
 
   function update($param = null){

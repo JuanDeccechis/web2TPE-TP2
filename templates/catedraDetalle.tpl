@@ -11,7 +11,6 @@
       <th>ELIMINAR</th>
       <th>EDITAR</th>
     {/if}
-    <th>Comentarios</th>
   </thead>
   <tbody>
         <tr class="filaCatedra">
@@ -32,29 +31,26 @@
                 </select>
               {/if}
           </td> -->
-          {if $sesion_activa}            
+          {if $sesion_activa}
+            
             <td> <a href="eliminarCatedra/{$Elementos['id']}">ELIMINAR</a> </td>
             <td> <a href="editarCatedra/{$Elementos['id']}">EDITAR</a></td>
           {/if}
-          <td>
-            <form action="enDetalle/{$Elementos['id']}/comentarios">
-              <input type="submit" value="Ver Comentarios" />
-            </form>
-          </td>
-
         </tr>
   </tbody>
 </table>
 
 {if $sesion_activa}
-<form method="post" action="agregarImagen" enctype="multipart/form-data">
-  <div class="form-group">
-    <input name="idCatedra" class="indiceImagenOculta" value="{$Elementos['id']}">
-    <label for="imagenes">Imagen</label>
-    <input type="file" id="imagenesAgregar" name="imagenesAgregar[]" multiple>
-  </div>
-  <button type="submit" class="btn btn-primary">Agregar Imagen</button>
-</form>
+  {if $tipoUsuario ne 'no logeado' and $tipoUsuario ne 'comun'}
+    <form method="post" action="agregarImagen" enctype="multipart/form-data">
+      <div class="form-group">
+        <input name="idCatedra" class="indiceImagenOculta" value="{$Elementos['id']}">
+        <label for="imagenes">Imagen</label>
+        <input type="file" id="imagenesAgregar" name="imagenesAgregar[]" multiple>
+      </div>
+      <button type="submit" class="btn btn-primary">Agregar Imagen</button>
+    </form>
+  {/if}
 {/if}
         
 
@@ -64,13 +60,18 @@
     {foreach from=$imagenes item=imagen}
       <img src={$imagen['direccion']} class="imagenSeleccionada">
       {if $sesion_activa}
-      <form method="post" action="eliminarImagen/{$imagen['id']}">
-        <input name="idCatedra" class="indiceImagenOculta" value="{$Elementos['id']}">
-        <button type="submit" class="btn btn-danger">Eliminar Imagen</button>
-      </form>
+        {if $tipoUsuario ne 'no logeado' and $tipoUsuario ne 'comun'}
+          <form method="post" action="eliminarImagen/{$imagen['id']}">
+            <input name="idCatedra" class="indiceImagenOculta" value="{$Elementos['id']}">
+            <button type="submit" class="btn btn-danger">Eliminar Imagen</button>
+          </form>
+        {/if}
       {/if}
     {/foreach}
   </div>
 {/if}
-{include file="footer.tpl"}
+
+{include file= "catedraComentarios.tpl"}
+      
+
 

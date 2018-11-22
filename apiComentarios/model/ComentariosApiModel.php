@@ -39,7 +39,7 @@ USE `web2comentarios`;");
     $this->db->query($tabla);
    
    $sentencias = "INSERT INTO `comentario` (`id`, `idCatedra`, `textoComentario`, `puntaje`) VALUES
-  (1, 1, 1, 'comentario', 4);";
+  (1, 1, 'comentario', 4);";
 
     $this->db->query($sentencias);
     
@@ -103,11 +103,11 @@ USE `web2comentarios`;");
       return $this->get();
   }
 
-  function insert($idCatedra, $textoComentario, $puntaje){
+  function insert($idCatedra, $textoComentario, $puntaje){ //if usuario mal then no se crea
     $parametros = array($idCatedra, $textoComentario, $puntaje);
     if ($this->entradaValida($parametros)) {
       $this->db->beginTransaction();
-      $sentencia = $this->db->prepare("INSERT INTO comentario(idCatedra,textoComentario, puntaje) VALUES(?,?,?)");
+      $sentencia = $this->db->prepare("INSERT INTO comentario(idCatedra,textoComentario, puntaje) VALUES(?,?,?,?)");
       $sentencia->execute(array($idCatedra,$textoComentario, $puntaje));
       $lastId =  $this->db->lastInsertId();
       $this->db->commit();
@@ -122,7 +122,7 @@ USE `web2comentarios`;");
       return false;
   }
 
-  function delete($id){
+  function delete($id){ //son cascade, si se borra un usuario o una catedra, se borran los comentarios
     $parametros = array($id);
     if ($this->entradaValida($parametros)) {
       $comentario = $this->get($id);

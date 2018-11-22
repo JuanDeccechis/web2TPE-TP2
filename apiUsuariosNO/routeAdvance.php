@@ -2,7 +2,7 @@
 
 
 require_once "config/ConfigApi.php";
-require_once "controller/ComentariosApiController.php";
+require_once "controller/UsuariosApiController.php";
 
 function parseURL($url)
 {
@@ -12,7 +12,6 @@ function parseURL($url)
   return $arrayReturn;
 }
 
-/*tareas/:parametros*/
 if(isset($_GET['resource'])){
     $urlData = parseURL($_GET['resource']);
     $resource = $urlData[ConfigApi::$RESOURCE]; //home

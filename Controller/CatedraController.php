@@ -42,18 +42,11 @@ class CatedraController extends AbstractController
 
   function mostrarEnDetalle($params) {
     $id_catedra = $params[0];
-    if(isset($params[1])){ // mostrar comentarios
-      if($params[1] == "comentarios"){
-        $this->view->comentarios($id_catedra);
-      }
-    }
-    else{
-      $catedra = $this->model->mostrarUno($id_catedra);
-      $carrera = $this->carreraModel->mostrarUno($catedra['id_carrera']);
-      $imagenes = $this->imagenModel->mostrarPorCatedra($id_catedra);
-      $this->view->detalle($carrera, $catedra, $imagenes);
+    $catedra = $this->model->mostrarUno($id_catedra);
+    $carrera = $this->carreraModel->mostrarUno($catedra['id_carrera']);
+    $imagenes = $this->imagenModel->mostrarPorCatedra($id_catedra);
+    $this->view->detalle($carrera, $catedra, $imagenes, $id_catedra);
   }
-}
 
   function agregar(){
     if (isset($_SESSION["User"])) {
@@ -181,30 +174,40 @@ class CatedraController extends AbstractController
 
   function agregarImagen(){
     if (isset($_SESSION["User"])) {
-      for ($i=0; $i < count($_FILES['imagenesAgregar']['name']); $i++) { 
-        $ruta = $_FILES['imagenesAgregar']['name'][$i];
-        var_dump("ruta: ". $ruta. " para " . $i);
-        $rutaTempImagenes = $_FILES['imagenesAgregar']['tmp_name'][$i];
-        $tamaño = strlen($ruta)-3;
-        $ext = substr($ruta, $tamaño);
-        if(($ext == "jpg") || ($ext == "png")){
-          if (isset($_POST["idCatedra"]) && ($_POST["idCatedra"] != null))
-            $path = $this->imagenModel->subirImagen($_POST["idCatedra"], $rutaTempImagenes, $ext);
+      if (($_SESSION["User"] == "inmortal") || ($_SESSION["User"] == "admin")) {
+        for ($i=0; $i < count($_FILES['imagenesAgregar']['name']); $i++) { 
+          $ruta = $_FILES['imagenesAgregar']['name'][$i];
+          var_dump("ruta: ". $ruta. " para " . $i);
+          $rutaTempImagenes = $_FILES['imagenesAgregar']['tmp_name'][$i];
+          $tamaño = strlen($ruta)-3;
+          $ext = substr($ruta, $tamaño);
+          if(($ext == "jpg") || ($ext == "png")){
+            if (isset($_POST["idCatedra"]) && ($_POST["idCatedra"] != null))
+              $path = $this->imagenModel->subirImagen($_POST["idCatedra"], $rutaTempImagenes, $ext);
+          }
         }
       }
+      else echo("el usuario no tiene permisos"); //nunca se muestra, por el header
     }
-    /*header(HOME."/enDetalle/{$id_catedra}");
-        die();*/
+    header(HOME."/enDetalle/{$id_catedra}");
+        die();
   }
 
   function eliminarImagen($param){
     if (isset($_SESSION["User"])) {
-      $id_imagen = $param[0];
-      if (isset($_POST["idCatedra"]) && ($_POST["idCatedra"] != null)) {
-        $id_catedra = $_POST["idCatedra"];
-        $this->imagenModel->borrarImagen($id_imagen, $id_catedra);
-        /*header(HOME."/enDetalle/{$id_catedra}");
-        die();*/
+      if (($_SESSION["User"] == "inmortal") || ($_SESSION["User"] == "admin")) {
+        $id_imagen = $param[0];
+        if (isset($_POST["idCatedra"]) && ($_POST["idCatedra"] != null)) {
+          $id_catedra = $_POST["idCatedra"];
+          $this->imagenModel->borrarImagen($id_imagen, $id_catedra);
+          header(HOME."/enDetalle/{$id_catedra}");
+          die();
+        }
+      }
+      else{
+        echo("el usuario no tiene permisos"); //nunca se muestra, por el header
+        header(HOME."/login");
+        die();
       }
     }
     else{
@@ -215,3 +218,4 @@ class CatedraController extends AbstractController
 }
 
  ?>
+

@@ -70,6 +70,8 @@
     {/foreach}
   </div>
 {/if}
+
+{include file= "catedraComentarios.tpl"}
       
-{include file="footer.tpl"}
+
 

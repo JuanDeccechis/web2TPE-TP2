@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function(){
+/*document.addEventListener("DOMContentLoaded", function(){
 
 	"use-strict";
 
@@ -12,4 +12,4 @@ document.addEventListener("DOMContentLoaded", function(){
 		srcImagen.src=jsimagenes.value;
 		indiceImagenOculta.value = jsimagenes.selectedIndex;
 	}
-})
+})*/

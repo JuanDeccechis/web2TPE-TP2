@@ -23,8 +23,9 @@ class ComentariosApiController extends Api{
   }
 
   function get($param = null){
-    if($this->entradaValida($param)){
-      $id = $param[0];
+    $parametros = array($param);
+    if($this->entradaValida($parametros)){
+      $id = $parametros[0];
       $arreglo = $this->model->get($id);
       $data = $arreglo;      
     }else
@@ -64,7 +65,7 @@ class ComentariosApiController extends Api{
     if(count($param) == 1){
       if($this->entradaValida($param)){
         $objetoJson = $this->getJSONData();
-        $r = $this->model->insert($objetoJson->idUsuario, $objetoJson->idCatedra, $objetoJson->textoComentario, $objetoJson->puntaje);
+        $r = $this->model->insert($objetoJson->idCatedra, $objetoJson->textoComentario, $objetoJson->puntaje);
         if($r === false)
           return $this->json_response("insert comentarios. No task specified", 300);
         return $this->json_response($r, 200);
@@ -79,7 +80,7 @@ class ComentariosApiController extends Api{
       if($this->entradaValida($param)){
         $id = $param[0];
         $objetoJson = $this->getJSONData();
-        $r = $this->model->update($objetoJson->idUsuario, $objetoJson->idCatedra, $objetoJson->textoComentario, $objetoJson->puntaje, $id);
+        $r = $this->model->update($objetoJson->idCatedra, $objetoJson->textoComentario, $objetoJson->puntaje, $id);
         if($r == false)
           return $this->json_response("update comentarios. No task specified", 300);
         return $this->json_response($r, 200);

@@ -31,7 +31,6 @@ USE `web2comentarios`;");
     
     $tabla = "CREATE TABLE `comentario` (
   `id` int(11) NOT NULL,
-  `idUsuario` int(11) NOT NULL,
   `idCatedra` int(11) NOT NULL,
   `textoComentario` text NOT NULL,
   `puntaje` int(1) NOT NULL
@@ -39,22 +38,20 @@ USE `web2comentarios`;");
 
     $this->db->query($tabla);
    
-   $sentencias = "INSERT INTO `comentario` (`id`, `idUsuario`, `idCatedra`, `textoComentario`, `puntaje`) VALUES
-  (1, 1, 1, 'comentario', 4);";
+   $sentencias = "INSERT INTO `comentario` (`id`, `idCatedra`, `textoComentario`, `puntaje`) VALUES
+  (1, 1, 'comentario', 4);";
 
     $this->db->query($sentencias);
     
     $fk = "ALTER TABLE `comentario`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `comentario_ibkf_1` (`idUsuario`),
   ADD KEY `comentario_ibfk_2` (`idCatedra`);
 
   ALTER TABLE `comentario`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
   ALTER TABLE `comentario`
-  ADD CONSTRAINT `comentario_ibfk_2` FOREIGN KEY (`idCatedra`) REFERENCES `web2tp1`.`catedra` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `comentario_ibkf_1` FOREIGN KEY (`idUsuario`) REFERENCES `web2usuarios`.`usuario` (`id`) ON DELETE CASCADE ON UPDATE CASCADE; COMMIT;  ";
+  ADD CONSTRAINT `comentario_ibfk_2` FOREIGN KEY (`idCatedra`) REFERENCES `web2tp1`.`catedra` (`id`) ON DELETE CASCADE ON UPDATE CASCADE; COMMIT;  ";
 
     $this->db->query($fk);
 
@@ -106,12 +103,12 @@ USE `web2comentarios`;");
       return $this->get();
   }
 
-  function insert($idUsuario, $idCatedra, $textoComentario, $puntaje){ //if usuario mal then no se crea
-    $parametros = array($idUsuario, $idCatedra, $textoComentario, $puntaje);
+  function insert($idCatedra, $textoComentario, $puntaje){ //if usuario mal then no se crea
+    $parametros = array($idCatedra, $textoComentario, $puntaje);
     if ($this->entradaValida($parametros)) {
       $this->db->beginTransaction();
-      $sentencia = $this->db->prepare("INSERT INTO comentario(idUsuario,idCatedra,textoComentario, puntaje) VALUES(?,?,?,?)");
-      $sentencia->execute(array($idUsuario,$idCatedra,$textoComentario, $puntaje));
+      $sentencia = $this->db->prepare("INSERT INTO comentario(idCatedra,textoComentario, puntaje) VALUES(?,?,?,?)");
+      $sentencia->execute(array($idCatedra,$textoComentario, $puntaje));
       $lastId =  $this->db->lastInsertId();
       $this->db->commit();
       $resultado = $sentencia->rowCount();
@@ -146,12 +143,12 @@ USE `web2comentarios`;");
     else return false;
   }
 
-  function update($idUsuario, $idCatedra, $textoComentario, $puntaje, $id){
-    $parametros = array($idUsuario, $idCatedra, $textoComentario, $puntaje, $id);
+  function update($idCatedra, $textoComentario, $puntaje, $id){
+    $parametros = array($idCatedra, $textoComentario, $puntaje, $id);
     if ($this->entradaValida($parametros)) {
       $this->db->beginTransaction();
-      $sentencia = $this->db->prepare( "update comentario set idUsuario = ?, idCatedra = ?, textoComentario = ?, puntaje = ? where id=?");
-      $sentencia->execute(array($idUsuario, $idCatedra, $textoComentario, $puntaje, $id));
+      $sentencia = $this->db->prepare( "update comentario set idCatedra = ?, textoComentario = ?, puntaje = ? where id=?");
+      $sentencia->execute(array($idCatedra, $textoComentario, $puntaje, $id));
       $this->db->commit();
       $resultado = $sentencia->rowCount();
       $sentencia->closeCursor();

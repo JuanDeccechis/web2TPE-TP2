@@ -45,7 +45,7 @@ abstract class AbstractView
   }
 
 
-  function showDetalleCatedra($Titulo, $table, $elementos, $template, $carreras, $imagenes=''){
+  function showDetalleCatedra($Titulo, $table, $elementos, $template, $carreras, $id_catedra, $imagenes=''){
     $smarty = new Smarty();
     $smarty->assign('Titulo',$Titulo);
     /*$smarty->assign("basehref", $this->basehref);*/
@@ -62,6 +62,8 @@ abstract class AbstractView
         $smarty->assign('tipoUsuario', $_SESSION["User"]);
     else
         $smarty->assign('tipoUsuario', "no logeado");
+
+    $smarty->assign('id_catedra', $id_catedra);
     $smarty->display($template);
   }
 

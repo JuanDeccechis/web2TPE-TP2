@@ -26,6 +26,10 @@ class CatedraView extends AbstractView
     $smarty->assign('id_catedra', $id_catedra); 
     $smarty->assign('id_usuario', $id_catedra); 
     $smarty->assign('sesion_activa', isset($_SESSION["User"])); 
+    if (isset($_SESSION["User"]))
+      $smarty->assign('tipo', $_SESSION["User"]); 
+    else
+      $smarty->assign('tipo', "no logeado"); 
     $smarty->display($template);
   }
 

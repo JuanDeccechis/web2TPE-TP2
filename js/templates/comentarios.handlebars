@@ -10,18 +10,22 @@
   <thead>
     <th>Comentario</th>
     <th>Puntaje</th>
-    <th>ELIMINAR</th>
+    {{#if puedeBorrar}} 
+      <th>ELIMINAR</th>
+    {{/if}}
   </thead>
   <tbody>
   {{#each comentarios}}
     <tr class="">
       <td>{{textoComentario}} </td>
       <td> {{puntaje}} </td>      
-      <td> 
+      {{#if ../puedeBorrar}} 
+      <td>
         <form action=""> 
           <button id="{{id}}" class="eliminar_js" type="submit">Eliminar</button> 
         </form> 
       </td>
+      {{/if}} 
     </tr>
     {{/each}}
   </tbody>

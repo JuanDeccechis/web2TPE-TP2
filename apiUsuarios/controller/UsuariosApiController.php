@@ -23,8 +23,9 @@ class UsuariosApiController extends Api{
   }
 
   function get($param = null){
-    if($this->entradaValida($param)){
-      $id = $param[0];
+    $parametros = array($param);
+    if($this->entradaValida($parametros)){
+      $id = $parametros[0];
       $arreglo = $this->model->get($id);
       $data = $arreglo;  
     }else
@@ -80,18 +81,5 @@ class UsuariosApiController extends Api{
 
   }
 
-  function getPermiso($param = null){
-    $parametros = array($param);
-   if($this->entradaValida($parametros)){
-      $id = $parametros[0];
-      $arreglo = $this->permisosModel->get($id);
-      $data = $arreglo;  
-    }else
-      $data = $this->permisosModel->get();
-    if(isset($data))
-      return $this->json_response($data, 200);
-    else
-      return $this->json_response(null, 404);
-  }
 }
  ?>

@@ -8,7 +8,6 @@ abstract class AbstractView
     $smarty = new Smarty();
     $smarty->assign('Titulo',$Titulo);
     /*$smarty->assign("basehref", $this->basehref);*/
-    $smarty->assign('Table',$table);
     $smarty->assign('Mensaje',$mensaje);
     $smarty->assign('Elementos',$elementos);
     if($table == 'carrera')

@@ -6,8 +6,7 @@ let templateComentarios;
 
 let id_catedra = document.querySelector("#id_catedra").title;
 let logueado = document.querySelector("#logueado").title == 0 ? false : true;
-
-
+let tipoUsuario = document.querySelector("#tipoUsuario").title;
 
 
 
@@ -31,10 +30,17 @@ function getComentarios(){
 }
 
 function mostrarComentarios(json){
+	let puedeBorrar = false;
+	console.log("user: " +tipoUsuario);
+	if ((tipoUsuario == "inmortal") ||(tipoUsuario == "admin"))
+		puedeBorrar = true;
+	else
+		puedeBorrar = false;
 	let context = {
 		titulo: "Comentarios",
 		catedra: id_catedra,
-		logueado, logueado,
+		logueado: logueado,
+		puedeBorrar: puedeBorrar,
 		comentarios: json
 	}
 	let container = document.querySelector("#comentarios-container");
